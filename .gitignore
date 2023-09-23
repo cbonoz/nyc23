@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+build
+.env
+
+contracts/cache
+contracts/build
+contracts/artifacts
