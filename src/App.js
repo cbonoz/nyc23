@@ -9,7 +9,7 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import { About } from "./components/About";
-import { ACTIVE_CHAIN, APP_DESC, APP_NAME, CHAIN_OPTIONS } from "./constants";
+import { ACTIVE_CHAIN, APP_DESC, APP_NAME, CHAINS, CHAIN_OPTIONS } from "./constants";
 import 'antd/dist/reset.css';
 
 import "@ant-design/flowchart/dist/index.css";
@@ -61,6 +61,7 @@ function App() {
       await wallet.switchChain(activeChain.id);
     } catch (e) {
       alert(`Please switch your wallet to ${activeChain.name} to continue`)
+      throw e;
     }
   }
 
@@ -69,18 +70,15 @@ function App() {
     if (isEmpty(wallets) || provider) {
       return
     }
-    console.log('wallets', wallets, user, user?.linkedAccounts)
+    // console.log('wallets', wallets, user, user?.linkedAccounts)
     const wallet = wallets[0]
     setAccount(wallet.address)
     const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === 'privy') || wallets[0];
     if (embeddedWallet) {
       const p = await embeddedWallet.getEthersProvider();
-      console.log('provider', p)
       setProvider(p)
-      if (p.getSigner) {
-        const s = await p.getSigner()
-        setSigner(s);
-      }
+      const s = await p.getSigner()
+      setSigner(s);
     } else {
       console.log('no embedded wallet found', wallets)
     }
@@ -141,17 +139,18 @@ function App() {
             </span>}
 
             <span>
+              &nbsp;
               {/* select chain */}
               <Select
-                style={{ width: 240 }}
+                style={{ width: 180 }}
                 value={activeChain.id}
                 onChange={(value) => {
-                  const chain = Object.values(CHAIN_OPTIONS).find((chain) => chain.id === value)
+                  const chain = CHAINS.find((chain) => chain.id === value)
                   setActiveNetwork(chain)
                 }}
               >
-                {Object.values(CHAIN_OPTIONS).map((chain) => {
-                  return <Option value={chain.id}>{chain.name}</Option>
+                {CHAINS.map((chain) => {
+                  return <Option key={chain.id} value={chain.id}>{chain.name}</Option>
                 }
                 )}
               </Select>
@@ -183,7 +182,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/research" element={<Research />} />
               <Route path="/create" element={<CreateContract activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
-              <Route path="/profile/:pageId" element={<ProfilePage switchNetwork={switchNetwork} signer={signer} account={account} />} />
+              <Route path="/profile/:pageId" element={<ProfilePage activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
             </Routes>
           </div>
         </Content>

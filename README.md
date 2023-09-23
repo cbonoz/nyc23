@@ -10,13 +10,11 @@ Monetize your expertise.
 
 Web3backers connects your existing social accounts and reputation (see lens, linkedin, twitter, etc.) to create a funding page for you to produce and sell content and your time. 
 
-Web3backers pulls information from your existing web3 and web2 networks to create a patreon-like experience without the 10% fees.
+Web3backers pulls information from your existing web3 and web2 networks to create a patreon-like experience without the 10% fees. Get clients and drive an alternative source of revenue.
 
+Currently supported on FEVM, Sepolia, and Neon EVM.
 
-
-Each page gets its own unique smart contract which tracks user interactions and payments.
-
-Monitor your engagement on-chain using events. Issue community tokens unique to your brand.
+Each page gets its own unique smart contract which tracks user interactions and payments. L2 and low cost chains are used to minimize
 
 A web3 platform for creating content funding similar to onlyfans and patreon but without the middleman.
 
@@ -44,7 +42,10 @@ Upload
 * Search page
 * About page 
 
-### Example Scroll contract
+### Example Web3backers contract
+
+Sepolia: 0xb1F35230c645C12Bc3066dcdcd774E704983d208
+Verification: `cd contracts; yarn verify-sepolia 0xb1F35230c645C12Bc3066dcdcd774E704983d208`
 
 * url: 
 * Example verification url:

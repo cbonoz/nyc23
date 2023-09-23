@@ -2,37 +2,27 @@ import React, { useState, useEffect } from "react"
 
 import { useNavigate } from "react-router"
 import { Divider, Input } from "antd/lib"
-import { AIRSTACK_QUERY } from "../constants"
-import { useQuery } from "@airstack/airstack-react"
+import { AIRSTACK_KEY, AIRSTACK_QUERY } from "../constants"
+import { useQuery, init } from "@airstack/airstack-react"
+import AirstackQuery from "./lib/AirstackQuery"
+
+// init(AIRSTACK_KEY)
 
 export const Research = () => {
-    const [address, setAddress] = useState()
-    const variables = { address }
-    const { data, loading, error } = useQuery(AIRSTACK_QUERY, variables, { cache: true });
+    const [identity, setIdentity] = useState('cbono.eth')
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error: {error.message}</p>;
-    }
 
     return <div>
-        <Input placeholder="Search" prefix={'Search'}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+        <div className="centered">
+            <h1>Research Hub</h1>
+            <h3>Because reputation often doesn't just come from one source</h3>
+        <Input placeholder="Search ENS" prefix={'Search ENS:'}
+            value={identity}
+            onChange={(e) => setIdentity(e.target.value)}
         />
-
-        <Divider />
-
-        <div className="result-section">
-        {JSON.stringify(data)}
-
         </div>
-
-
-
+        <Divider />
+        <AirstackQuery identity={identity} />
 
     </div>
 }

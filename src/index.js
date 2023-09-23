@@ -3,31 +3,39 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { ACTIVE_CHAIN, APP_NAME, CHAIN_OPTIONS, CHAINS, WEB3_PROJECT_ID } from './constants';
+import { ACTIVE_CHAIN, AIRSTACK_KEY, APP_NAME, CHAIN_OPTIONS, CHAINS, WEB3_PROJECT_ID } from './constants';
 
-import './index.css';
 import { ConfigProvider } from 'antd';
 
 // https://0.12.x.wagmi.sh/react/WagmiConfig
 import { createConfig, configureChains, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { PrivyProvider } from '@privy-io/react-auth';
-
 import { AirstackProvider } from '@airstack/airstack-react';
+
+import './index.css';
 
 const projectId = process.env.REACT_APP_WC_ID || 'YOUR_PROJECT_ID'
 const PRIVY_ID = process.env.REACT_APP_PRIVY_APP_ID
-const AIRSTACK_KEY = process.env.REACT_APP_AIRSTACK_KEY
-
-// const chains = [scrollSepolia, xdcTestnet, neonDevnet]
+const QUICKNODE_URL = process.env.REACT_APP_SEPOLIA_QUICKNODE_URL
 
 
+const RPCS = []
+if (QUICKNODE_URL) {
+  console.log('using quicknode', QUICKNODE_URL)
+  RPCS.push(jsonRpcProvider({
+    rpc: (chain) => ({
+      http: QUICKNODE_URL
+    }),
+  }))
+}
+// public default
+RPCS.push(publicProvider())
 
 // const wagmiConfig = defaultWagmiConfig({ chains: Object.values(CHAIN_OPTIONS), projectId, appName: APP_NAME })
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  CHAINS,
-  [publicProvider()],
+  CHAINS, RPCS
 )
  
 const config = createConfig({
@@ -35,7 +43,7 @@ const config = createConfig({
   webSocketPublicClient,
 })
 
-console.log('app context', projectId, PRIVY_ID, AIRSTACK_KEY)
+console.log('app context', projectId, PRIVY_ID, 'airstack', AIRSTACK_KEY)
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

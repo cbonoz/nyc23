@@ -19,6 +19,12 @@
   background: white;
 }
 
+.dropzone {
+  border: 1px dotted black;
+  padding: 25px;
+  cursor: pointer;
+}
+
 .boxed {
   padding: 20px;
   border-radius: 5px;

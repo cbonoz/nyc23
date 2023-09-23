@@ -2,10 +2,9 @@ import { useEnsAvatar, useEnsName } from 'wagmi'
 
 // https://docs.ens.domains/dapp-developer-guide/quickstart#reverse-resolution/
 
-function EnsAvatar() {
-  const address = '0xb8c2C29ee19D8307cb7255e1Cd9CbDE883A267d5'
-  const ensName = useEnsName({ address, chainId: 1 })
-  const ensAvatar = useEnsAvatar({ name: ensName.data, chainId: 1 })
+function EnsAvatar({chainId, address}) {
+  const ensName = useEnsName({ address, chainId })
+  const ensAvatar = useEnsAvatar({ name: ensName.data, chainId })
 
   return (
     <div

@@ -1,26 +1,40 @@
 import { Button, Card, Col, Grid, Modal, Result, Spin } from 'antd'
-import TextArea from 'antd/lib/input/TextArea'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { APP_NAME, EXAMPLE_FORM } from '../constants'
 import { getMetadata, purchaseConsult, purchaseOffer } from '../contract/profileContract'
-import { capitalize, formatDate, getExplorerUrl, humanError, ipfsUrl } from '../util'
-import { ethers } from 'ethers'
-import { CopyOutlined } from '@ant-design/icons'
+import { capitalize, formatDate, getExplorerUrl, humanError, ipfsUrl, isEmpty } from '../util'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
 import EnsAvatar from './lib/EnsAvatar'
+import { getProfilesForIdentity } from '../util/nextid'
+import { Avatar, Divider } from 'antd/lib'
+import { render } from '@testing-library/react'
+import AirstackQuery from './lib/AirstackQuery'
 
 export default function ProfilePage({ network, provider, signer, activeChain, account }) {
     const [error, setError] = useState()
     const [result, setResult] = useState()
     const [loading, setLoading] = useState(false)
     const [location, setLocation] = useState()
-    const [data, setData] = useState({ ...EXAMPLE_FORM })
+    const [data, setData] = useState()
     const [confirmModal, setConfirmModal] = useState(false);
 
     const params = useParams()
     const { pageId: itemId } = params
+
+    async function buyOffer() {
+        // TODO: add error check for preset location if user denied permission or location not retrievable.
+        setLoading(true)
+        try {
+            const res = await purchaseOffer(signer, itemId);
+            setResult({ ...res, contractUrl: getExplorerUrl(activeChain, itemId) })
+        } catch (e) {
+            setError(humanError(e.data.message || e.message));
+        } finally {
+            setLoading(false)
+        }
+    }
 
     async function buyConsult() {
         // TODO: add error check for preset location if user denied permission or location not retrievable.
@@ -29,7 +43,7 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
             const res = await purchaseConsult(signer, itemId);
             setResult({ ...res, contractUrl: getExplorerUrl(activeChain, itemId) })
         } catch (e) {
-            setError(humanError(e.message));
+            setError(humanError(e.data.message || e.message));
         } finally {
             setLoading(false)
         }
@@ -39,9 +53,18 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         setError(undefined)
         setLoading(true)
         try {
-            const res = await getMetadata(signer, itemId)
-            const d = JSON.parse(res || '{}')
-            setData(d)
+            let res = {}
+            try {
+                res = await getMetadata(signer, itemId)
+                res = JSON.parse(res || '{}')
+            } catch (e) {
+                console.error('error fetching contract info, using default', e)
+                res = { ...EXAMPLE_FORM }
+            }
+            const response = await getProfilesForIdentity(res.ens)
+            console.log('res', res)
+            res['identities'] = response.data
+            setData(res)
         } catch (e) {
             console.error('error fetching profile information', e)
             setError(humanError(e.message))
@@ -66,35 +89,74 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         <span className='success-text'>Found profile</span> :
         <span>{APP_NAME}: Error loading profile</span>;
 
+    const hasIdentites = !isEmpty(data?.identities || [])
+
+    const renderLinks = (platform, links) => {
+        return <span>
+            {platform} --&nbsp;
+            {Object.keys(links).map((key, i) => {
+                const d = links[key]
+                return <span key={i}>
+                    <a href={d.link} target='_blank'>{d.handle} ({key})</a>&nbsp;|&nbsp;
+                </span>
+            })}
+        </span>
+    }
 
     return (
         <div className='boxed container profile-page'>
             <Layout>
                 <Sider
                 >
-                    <EnsAvatar address={itemId} />
+                    <EnsAvatar address={data?.paymentAddress} chainId={activeChain?.id} />
+                    <h1>{data?.name}</h1>
                 </Sider>
                 <Content>
 
-                    <Card title={cardHeading}>
+                    <Card style={{ background: 'white' }} title={cardHeading}>
+                        <h1>{data?.purpose}</h1>
                         {/* TODO: pull in third party media from nextid and airstack. */}
-                        {JSON.stringify(data)}
-                        <br/>
-                        <br/>
-                        {/* TODO: add profile info here */}
+                        {/* {JSON.stringify(data)} */}
+                        <br />
 
-                        <h1>Offers</h1>
-                        <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+                        {hasIdentites && <div className='nextid-identities'>
+                            <Card title="Connect with me">
+                                {(data?.identities || []).map((identity, i) => {
+                                    // render into antd avatar row
+                                    return (
+                                        <div className='nextid-identity' key={i}>
 
+                                            <Card.Meta
+                                                className='bordered'
+                                                avatar={
+                                                    <Avatar src={identity.avatar} />}
+                                                title={identity.displayName}
+                                                description={renderLinks(identity.platform, identity.links)} />
+                                            <Divider />
 
-                        <h1>Purchase a consult</h1>
-                        <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+                                        </div>
+                                    )
+                                })}
+                                Powered by Next.ID
+                            </Card></div>}
+                                    <br/>
 
+                        {data.ens && <Card title="Web3 Reputation">
+                            <AirstackQuery identity={data.ens}/>
+                        </Card>}
+                        <Card title="Offers">
+                            <Button type='primary' onClick={buyOffer}>Buy offer</Button>
+                        </Card>
+                                    <br/>
+
+                        <Card title="Consult">
+                            <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+                        </Card>
 
                     </Card>
                 </Content>
             </Layout>
 
-        </div>
+        </div >
     )
 }

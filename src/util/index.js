@@ -16,6 +16,9 @@ export const formatDate = (d) => {
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`
 }
 
+export const getBioUrl = (ens) => {
+  return `https://web3.bio/?s=${ens}`
+}
 
 export const ipfsUrl = (cid, fileName) => {
     // let url = `https://ipfs.io/ipfs/${cid}`;
@@ -33,7 +36,7 @@ export function capitalize(string) {
 }
 
 export const getExplorerUrl = (activeChain, hash, useTx) =>
-  `${activeChain.url}${useTx ? "tx/" : "address/"}${hash}`;
+  `${activeChain.blockExplorers.default.url}/${useTx ? "tx/" : "address/"}${hash}`;
 
 export const createJsonFile = (signload, fileName) => {
   const st = JSON.stringify(signload);

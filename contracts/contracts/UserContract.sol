@@ -1,57 +1,87 @@
 pragma solidity ^0.8.0;
+
 // License
 // SPDX-License-Identifier: MIT
 
 contract UserContract {
+    address public deployer;
+    bool public active;
+    string public name;
+    string public purpose;
+    uint256 public chainId;
 
-  address public deployer;
-  bool public active;
-  string public name;
-  string public purpose;
-  uint256 public chainId;
-  mapping(address => bool) public hasAccess;
+    struct Offer {
+        // price and description
+        uint256 price;
+        string description;
+        string cid;
+    }
 
-  constructor(string memory _name, string memory _purpose, uint256 _chainId) {
-    deployer = msg.sender;
-    active = true;
-    name = _name;
-    purpose = _purpose;
-    chainId = _chainId;
-  }
+    // TODO: add offers
+    Offer public offer;
+    uint256 public consultFee;
 
-  // function purchaseAccess() public payable returns (string memory) {
-  //   require(active, "Contract was marked inactive by creator");
-  //   if (price != 0) {
-  //     require(msg.value == price, "Incorrect price, please call contract with nonzero value");
-  //     // Transfer to deployer.
-  //     payable(deployer).transfer(msg.value);
-  //   }
-  //   hasAccess[msg.sender] = true;
-  //   return cid;
-  // }
+    mapping(address => bool) public hasAccess;
 
-  // // get price
-  //   function getPrice() public view returns (uint256) {
-  //       return price;
-  //   }
+    constructor(
+        string memory _name,
+        string memory _purpose,
+        uint256 _chainId,
+        string memory _cid,
+        uint256 _price,
+        string memory _description,
+        uint256 _consultFee
+    ) {
+        deployer = msg.sender;
+        active = true;
+        name = _name;
+        purpose = _purpose;
+        chainId = _chainId;
+        offer = Offer(_price, _description, _cid);
+        consultFee = _consultFee;
+    }
 
-  // function getCid(address _address) public view returns (string memory) {
-  //   require(hasAccess[_address], "Call purchaseAccess to get cid");
-  //   return cid;
-  // }
+    // function emitBu
 
-  // function changePrice(uint256 _newPrice) public {
-  //   require(msg.sender == deployer);
-  //   price = _newPrice;
-  // }
+    function purchaseAccess() public payable returns (string memory) {
+        require(active, "Contract was marked inactive by creator");
+        if (offer.price != 0) {
+            require(
+                msg.value == offer.price,
+                "Incorrect price, please call contract with nonzero value"
+            );
+            // Transfer to deployer.
+            payable(deployer).transfer(msg.value);
+        }
+        hasAccess[msg.sender] = true;
+        return offer.cid;
+    }
 
-  function toggleActive() public {
-    require(msg.sender == deployer);
-    active = !active;
-  }
+    // get price
+    function getPrice() public view returns (uint256) {
+        return offer.price;
+    }
 
-  function getMetadata() public view returns (string memory, string memory) {
-    return (name, purpose);
-  }
+    function getCid(address _address) public view returns (string memory) {
+        require(hasAccess[_address], "Call purchaseAccess to get cid");
+        return offer.cid;
+    }
 
+    function changePrice(uint256 _newPrice) public {
+        require(msg.sender == deployer);
+        offer.price = _newPrice;
+    }
+
+    function toggleActive() public {
+        require(msg.sender == deployer);
+        active = !active;
+    }
+
+    function getMetadata()
+        public
+        view
+        returns (string memory, string memory, Offer memory, uint256)
+    {
+        return (name, purpose, offer, consultFee);
+    }
 }

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Row, Col, Radio, Steps, Result, DatePicker, Card } from "antd";
-import { insureUrl, ipfsUrl, getExplorerUrl, qrUrl, humanError, createFundRequest, profilePage } from "../util";
+import { insureUrl, ipfsUrl, getExplorerUrl, qrUrl, humanError, createFundRequest, profilePage, isEmpty } from "../util";
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_FORM } from "../constants";
 import { deployContract } from "../contract/profileContract";
 import FormItem from "antd/es/form/FormItem";
 import TextArea from "antd/es/input/TextArea";
 import { FileDrop } from "./lib/FileDrop";
 import { useAccount } from "wagmi";
+import { uploadFiles } from "../util/stor";
+import { Divider } from "antd/es";
 
 
 const { Step } = Steps;
@@ -38,7 +40,7 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
       return "Please provide a profile page name.";
     } else if (!data.purpose) {
       return "Please provide a purpose for the " + APP_NAME + " page.";
-    }    
+    }
     return undefined
   };
 
@@ -53,37 +55,48 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
     }
 
     // Ethereum request switch if not on ACTIVE_NETWORK.id
-    try {
-      switchNetwork()
-    } catch (e) {
-      alert(`Please switch your wallet to ${ACTIVE_CHAIN.name} to continue`)
-    return;
-    }
 
     setLoading(true);
 
-    let res = { ...data };
+    let res = { ...data, paymentAddress: account };
 
     try {
-      // Deploy base contract with metadata,
+      // 1. Check current network
+      await switchNetwork()
+
+      // 2. Deploy offer to filecoin.
+      let cid = ''
+      if (!isEmpty(data.files)) {
+        cid = await uploadFiles(data.files, res)
+      }
+
+      // 3. Deploy base contract with metadata,
       const contract = await deployContract(
         signer,
         data.name,
-        data.purpose
+        data.purpose,
+        activeChain.id,
+        cid,
+        data.offerPrice,
+        data.offerDescription,
+        data.consultFee
       );
 
-      // Return shareable url for policy.
+
+      // 4. Return shareable url for policy.
       res["contract"] = contract.address;
       res["contractUrl"] = getExplorerUrl(activeChain, contract.address);
-      res["policyUrl"] = profilePage(contract.address);
+      res["profileUrl"] = profilePage(contract.address);
+      res["offerUrl"] = ipfsUrl(cid);
 
       // Result rendered after successful doc upload + contract creation.
+      console.log('result', res)
       setResult(res);
 
     } catch (e) {
       console.error("Error creating profile page contract", e);
       const message = e.reason || e.response?.message || e.message
-      setError(humanError(message))
+      setError(humanError(e.data?.message || message))
     } finally {
       setLoading(false)
     }
@@ -113,47 +126,107 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
                 </a>
                 <br />
                 <br />
+                <h2>1. General information</h2>
                 {/* <h3 className="vertical-margin">Profile information:</h3> */}
-              <h4>Page name</h4>
-              <Input
-                placeholder="Name of listing"
-                value={data.name}
-                onChange={(e) => updateData("name", e.target.value)}
-              />
-              <br />
-              <br />
-              <h4>Purpose / Headline</h4>
-              <TextArea
-                aria-label="Purpose / Headline"
-                onChange={(e) => updateData("purpose", e.target.value)}
-                placeholder="Your mission statement"
-                prefix="Purpose"
-                value={data.purpose}
-              />
+                <h4>Page name</h4>
+                <Input
+                  placeholder="Name of listing"
+                  prefix="Name: "
+                  value={data.name}
+                  onChange={(e) => updateData("name", e.target.value)}
+                />
+                <h4>Enter your ENS address</h4>
+                <Input
+                  aria-label="ENS Identity"
+                  onChange={(e) => updateData("ens", e.target.value)}
+                  placeholder="Your profile ENS"
+                  prefix="ENS: "
+                  value={data.ens}
+                />
 
-              <h4>Add offers</h4>
+                <h4>Purpose / Headline</h4>
+                <TextArea
+                  aria-label="Purpose / Headline"
+                  onChange={(e) => updateData("purpose", e.target.value)}
+                  placeholder="Your mission statement"
+                  prefix="Purpose: "
+                  value={data.purpose}
+                />
 
-               {/* TODO: add configurable amount of items */}
-               <h3 className="vertical-margin">Upload content for purchaseable collection</h3>
-              <FileDrop
-                files={data.files || []}
-                setFiles={(files) => updateData("files", files)}
-              />
+                <Divider/>
+
+                <h2>2. Add purchaseable content</h2>
+
+                {data.offerActive && <Card title="Offer">
 
 
-              <Button type="primary" className="standard-button" onClick={() => {
-                const offers = data.offers || []
-                offers.push({ name: '', description: '', price: 0 })
-                updateData('offers', offers)
-              }}>+ Add offer</Button>
+                <TextArea
+                    aria-label="Offer description"
+                    onChange={(e) => updateData("offerDescription", e.target.value)}
+                    placeholder="Offer description"
+                    prefix={`Price (${symbol})`}
+                    value={data.offerDescription}
+                  />
 
-              <h4>Set a message fee</h4>
-              <p>Users can message you to your address by paying a specified fee.</p>
-              <br />
-              <br />
-              
+                  <Input
+                  type="number"
+                  aria-label="Offer price"
+                  onChange={(e) => updateData("offerPrice", e.target.value)}
+                  placeholder="Price"
+                  prefix={`Price (${symbol})`}
+                  value={data.offerPrice}
+                />
 
-             
+                  {/* TODO: add configurable amount of items */}
+                  <h3 className="vertical-margin">Upload content for purchaseable offer/content</h3>
+                  <FileDrop
+                    files={data.files || []}
+                    setFiles={(files) => updateData("files", files)}
+                  />
+                </Card>}
+
+                <Button type="primary" className="standard-button" onClick={() => {
+                  if (data.offerActive) {
+                    alert("Future work for ability to add more offers!")
+                  } else {
+                    updateData("offerActive", true)
+                  }
+                  // const offers = data.offers || []
+                  // offers.push({ name: '', description: '', price: 0 })
+                  // updateData('offers', offers)
+                }}>+ Add item</Button>
+
+                {data.offerActive && <Button type="secondary" onClick={() => {
+                  updateData("offerActive", false)
+                }}>Remove Offer</Button>}
+
+                <Divider/>
+                <h2>3. Set a messaging fee</h2>
+                <p>Users can message you to your address by paying a specified fee.</p>
+
+                <Input
+                type="number"
+                  aria-label="Consult fee"
+                  onChange={(e) => updateData("consultFee", e.target.value)}
+                  placeholder="Consult price"
+                  prefix={`Consult Fee (${symbol})`}
+                  value={data.consultFee}
+                />
+
+                <Divider/>
+
+
+                {/* <h4>Payment Address</h4> */}
+                <p>Your current deployer address will collect any payments gathered by {APP_NAME}</p>
+
+                <Input
+                  aria-label="Payment address"
+                  placeholder="Payment address: "
+                  disabled
+                  prefix="Payment Address: "
+                  value={account}
+                />
+
                 <Button
                   type="primary"
                   className="standard-button"
@@ -176,21 +249,31 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
               {error && <div className="error-text">Error: {error}</div>}
               {result && (<div>
                 <Result status="success"
-                  title="Insurance policy created!"
-                  subTitle="Your insurance policy has been created.  Share or post the purchase page above to allow others to
-                  purchase the policy."
+                  title="Profile page created!"
+                  subTitle="Your profile page has been created. Share or post your profile page for others to unlock content or purchase a consult"
                   extra={[
                     <Button type="primary" key="buy">
-                      <a href={result.policyUrl} target="_blank">
-                        Purchase page
+                      <a href={result.profileUrl} target="_blank">
+                        Profile page (shareable)
                       </a></Button>,
                     <Button type="default" key="console">
                       <a href={result.contractUrl} target="_blank">
-                        View policy
+                        View page contract
                       </a>
                     </Button>,
                   ]}
                 />
+
+                <h5>View Offer</h5>
+                <p>The below offer link will be shared with any users that purchase it:
+                  <br/>
+                  {/* ipfs url */}
+                  <a href={result.offerUrl} target="_blank">
+                    View offer content
+                  </a>
+
+
+                </p>
                 <div>
                   <p>
 
@@ -207,6 +290,8 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
           <div className="white boxed">
             <Card title={`How ${APP_NAME} works`}>
               <Steps
+                  progressDot
+
                 className="standard-margin"
                 direction="vertical"
                 size="small"
@@ -214,12 +299,12 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
               >
                 <Step title="Fill in fields" description="Enter required data." />
                 <Step
-                  title="Create insurance policy agreement."
-                  description="Deploys a smart contract which represents the insurance policy."
+                  title={`Create public ${APP_NAME} profile page.`}
+                  description="Deploys a smart contract which represents the profile page."
                 />
                 <Step
                   title="Share the generated contract url with potential policy buyers."
-                  description="Others can view and purchase the policy from this url"
+                  description="Others can purchase and initiate a private consult from this url"
                 />
               </Steps>
             </Card>
