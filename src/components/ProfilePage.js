@@ -12,7 +12,7 @@ import { Avatar, Divider } from 'antd/lib'
 import { render } from '@testing-library/react'
 import AirstackQuery from './lib/AirstackQuery'
 
-export default function ProfilePage({ network, provider, signer, activeChain, account }) {
+export default function ProfilePage({ provider, signer, activeChain, account }) {
     const [error, setError] = useState()
     const [result, setResult] = useState()
     const [loading, setLoading] = useState(false)
@@ -80,10 +80,7 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         }
     }, [itemId, signer])
 
-    if (loading) {
-        return <Spin size="large" className='boxed' />
-    }
-
+ 
     const decodedName = `Profile: ${decodeURIComponent(data?.name || '')}`
 
     const cardHeading = decodedName ?
@@ -105,6 +102,18 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
     }
 
     const symbol = activeChain.nativeCurrency.symbol;
+
+    if (!signer) {
+        return <p>
+            Connect your wallet with Privy to continue.
+        </p>
+    }
+
+    if (loading) {
+        return <Spin size="large" className='boxed' />
+    }
+
+
     return (
         <div className='boxed container profile-page'>
             <Layout>

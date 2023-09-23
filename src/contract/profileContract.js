@@ -1,11 +1,8 @@
 import { ethers } from "ethers";
 import { USER_CONTRACT } from "../util/metadata";
 
-const getVeritificationString = (network, name, purpose, chainId, cid, offerPrice, offerDescription, consultFee) => {
-    return `npx hardhat verify --network ${network} ${name} ${purpose} ${chainId} ${cid} ${offerPrice} ${offerDescription} ${consultFee}`;
-}
 
-export async function deployContract(signer, name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, verify) {
+export async function deployContract(signer, name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens, verify) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
         USER_CONTRACT.abi,
@@ -16,9 +13,9 @@ export async function deployContract(signer, name, purpose, chainId, cid, offerP
     // Convert prices to wei
     offerPrice = ethers.utils.parseEther(offerPrice.toString());
     consultFee = ethers.utils.parseEther(consultFee.toString());
-    const contract = await factory.deploy(name, purpose, chainId, cid, offerPrice, offerDescription, consultFee);
+    const contract = await factory.deploy(name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens);
     // log
-    console.log("Deploying contract...", name, purpose, chainId, cid, offerPrice, offerDescription, consultFee);
+    console.log("Deploying contract...", name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens);
     await contract.deployed();
     console.log("deployed contract...", contract.address);
     if (true) {

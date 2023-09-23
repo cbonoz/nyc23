@@ -9,6 +9,7 @@ contract UserContract {
     string public name;
     string public purpose;
     uint256 public chainId;
+    string public ens;
 
     struct Offer {
         // price and description
@@ -30,7 +31,8 @@ contract UserContract {
         string memory _cid,
         uint256 _price,
         string memory _description,
-        uint256 _consultFee
+        uint256 _consultFee,
+        string memory _ens
     ) {
         deployer = msg.sender;
         active = true;
@@ -39,6 +41,7 @@ contract UserContract {
         chainId = _chainId;
         offer = Offer(_price, _description, _cid);
         consultFee = _consultFee;
+        ens = _ens;
     }
 
     // function emitBu
@@ -83,8 +86,8 @@ contract UserContract {
     function getMetadata()
         public
         view
-        returns (string memory, string memory, Offer memory, uint256)
+        returns (string memory, string memory, Offer memory, uint256, string memory)
     {
-        return (name, purpose, offer, consultFee);
+        return (name, purpose, offer, consultFee, ens);
     }
 }

@@ -56,11 +56,9 @@ Verification: `cd contracts; yarn verify-sepolia 0xb1F35230c645C12Bc3066dcdcd774
 ###
 
 https://docs.privy.io/guide/quickstart
-### Possible Sponsors
+### Sponsors
 
 
-* Polygon (might be too crowded) - could use account abstraction
-* WalletConnect: Authentication, inbox for push nofications. Web3Modal V3 for auth
 * Privy: Authentication
 
 Bounty Description:
@@ -77,10 +75,19 @@ Bounty Description:
 
 Develop an innovative DeFi solution on a supported EVM that has a meaningful impact on the community. Your project should introduce novel concepts or functionalities, addressing real-world problems and pushing the boundaries of DeFi
 
-* Filecoin/IPFS: Storage (web3.storage api only likely not enough, needs to use FVM)
+* Filecoin/IPFS: Storage (web3.storage api only likely not enough, needs to use FVM). Contract deployment
+* Scroll: Contract deployment
+* Neon: Contract deployment
+* Airstack: Profiles and social
+* Next.id: Profiles and social
+* Privy: Authentication
 * ENS account abstraction (can use cbono.eth)
+
+Maybe:
 * Unlock protocol for gated content
 * Quicknode NFT API
+
+* 
 
 ## Useful links
 * Sponsors: https://ethglobal.com/events/newyork2023/prizes
