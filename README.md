@@ -10,6 +10,10 @@ Monetize your expertise.
 
 Web3backers connects your existing social accounts and reputation (see lens, linkedin, twitter, etc.) to create a funding page for you to produce and sell content and your time. 
 
+Web3backers pulls information from your existing web3 and web2 networks to create a patreon-like experience without the 10% fees.
+
+
+
 Each page gets its own unique smart contract which tracks user interactions and payments.
 
 Monitor your engagement on-chain using events. Issue community tokens unique to your brand.
@@ -24,7 +28,6 @@ Upload
 * Get in contact with Chris (XMTP)
 * Connect account (Privy)
 * Deploy contract per page (Neon, Metamask, Scroll, XDC)
-* UMA (user search)?
 * Unlock (gated content and connection to XMTP)
 * NFT API (quicknode)
 * Mask (relationservice search) https://docs.next.id/core-concepts/relation-service/rs-example

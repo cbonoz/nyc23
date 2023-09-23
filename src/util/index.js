@@ -26,14 +26,14 @@ export const ipfsUrl = (cid, fileName) => {
     return url;
   };
 
-export const insureUrl = (cid) => `${window.location.origin}/policy/${cid}`;
+export const profilePage = (cid) => `${window.location.origin}/profile/${cid}`;
 
 export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const getExplorerUrl = (hash, useTx) =>
-  `${ACTIVE_CHAIN.url}${useTx ? "tx/" : "address/"}${hash}`;
+export const getExplorerUrl = (activeChain, hash, useTx) =>
+  `${activeChain.url}${useTx ? "tx/" : "address/"}${hash}`;
 
 export const createJsonFile = (signload, fileName) => {
   const st = JSON.stringify(signload);

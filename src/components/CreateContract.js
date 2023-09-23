@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Row, Col, Radio, Steps, Result, DatePicker, Card } from "antd";
-import { insureUrl, ipfsUrl, getExplorerUrl, qrUrl, humanError, createFundRequest } from "../util";
+import { insureUrl, ipfsUrl, getExplorerUrl, qrUrl, humanError, createFundRequest, profilePage } from "../util";
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_FORM } from "../constants";
 import { deployContract } from "../contract/profileContract";
 import FormItem from "antd/es/form/FormItem";
@@ -11,7 +11,7 @@ import { useAccount } from "wagmi";
 
 const { Step } = Steps;
 
-function CreateContract({ account, provider, switchNetwork, activeChain }) {
+function CreateContract({ account, provider, signer, switchNetwork, activeChain }) {
   const [data, setData] = useState({});
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -67,7 +67,7 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
     try {
       // Deploy base contract with metadata,
       const contract = await deployContract(
-        provider?.signer,
+        signer,
         data.name,
         data.purpose
       );
@@ -75,13 +75,13 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
       // Return shareable url for policy.
       res["contract"] = contract.address;
       res["contractUrl"] = getExplorerUrl(activeChain, contract.address);
-      res["policyUrl"] = insureUrl(contract.address);
+      res["policyUrl"] = profilePage(contract.address);
 
       // Result rendered after successful doc upload + contract creation.
       setResult(res);
 
     } catch (e) {
-      console.error("error creating insurance policy", e);
+      console.error("Error creating profile page contract", e);
       const message = e.reason || e.response?.message || e.message
       setError(humanError(message))
     } finally {
@@ -113,8 +113,8 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
                 </a>
                 <br />
                 <br />
-                <h3 className="vertical-margin">Profile information:</h3>
-              <h5>Name</h5>
+                {/* <h3 className="vertical-margin">Profile information:</h3> */}
+              <h4>Page name</h4>
               <Input
                 placeholder="Name of listing"
                 value={data.name}
@@ -122,7 +122,7 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
               />
               <br />
               <br />
-              <h5>Purpose / Headline</h5>
+              <h4>Purpose / Headline</h4>
               <TextArea
                 aria-label="Purpose / Headline"
                 onChange={(e) => updateData("purpose", e.target.value)}
@@ -131,17 +131,29 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
                 value={data.purpose}
               />
 
-              <h5>Add offers</h5>
-              <br />
-              <br />
+              <h4>Add offers</h4>
 
-              {/* TODO: add configurable amount of items */}
-              <h3 className="vertical-margin">Upload content for purchaseable collection</h3>
+               {/* TODO: add configurable amount of items */}
+               <h3 className="vertical-margin">Upload content for purchaseable collection</h3>
               <FileDrop
                 files={data.files || []}
                 setFiles={(files) => updateData("files", files)}
               />
 
+
+              <Button type="primary" className="standard-button" onClick={() => {
+                const offers = data.offers || []
+                offers.push({ name: '', description: '', price: 0 })
+                updateData('offers', offers)
+              }}>+ Add offer</Button>
+
+              <h4>Set a message fee</h4>
+              <p>Users can message you to your address by paying a specified fee.</p>
+              <br />
+              <br />
+              
+
+             
                 <Button
                   type="primary"
                   className="standard-button"

@@ -8,13 +8,15 @@ contract UserContract {
   bool public active;
   string public name;
   string public purpose;
+  uint256 public chainId;
   mapping(address => bool) public hasAccess;
 
-  constructor(string memory _name, string memory _purpose) {
+  constructor(string memory _name, string memory _purpose, uint256 _chainId) {
     deployer = msg.sender;
     active = true;
     name = _name;
     purpose = _purpose;
+    chainId = _chainId;
   }
 
   // function purchaseAccess() public payable returns (string memory) {

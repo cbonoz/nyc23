@@ -6,8 +6,8 @@ import logo from './../assets/logo.png'
 import { CheckCircleTwoTone } from '@ant-design/icons';
 
 const CHECKLIST_ITEMS = [
-  "Create a page in minutes",
-  "Sell your expertise, time, and content",
+  "Create a page in minutes. Sell your expertise, time, and content",
+  "Import your existing social media links and followers into your page",
   "No user accounts or vendor agreements required"
 ];
 

@@ -7,16 +7,17 @@ import { getMetadata, purchaseConsult, purchaseOffer } from '../contract/profile
 import { capitalize, formatDate, getExplorerUrl, humanError, ipfsUrl } from '../util'
 import { ethers } from 'ethers'
 import { CopyOutlined } from '@ant-design/icons'
+import Layout, { Content } from 'antd/lib/layout/layout'
+import Sider from 'antd/lib/layout/Sider'
+import EnsAvatar from './lib/EnsAvatar'
 
-export default function ProfilePage({ network, provider, account }) {
+export default function ProfilePage({ network, provider, signer, activeChain, account }) {
     const [error, setError] = useState()
     const [result, setResult] = useState()
     const [loading, setLoading] = useState(false)
     const [location, setLocation] = useState()
     const [data, setData] = useState({ ...EXAMPLE_FORM })
     const [confirmModal, setConfirmModal] = useState(false);
-
-    const signer = provider?.signer;
 
     const params = useParams()
     const { pageId: itemId } = params
@@ -25,8 +26,8 @@ export default function ProfilePage({ network, provider, account }) {
         // TODO: add error check for preset location if user denied permission or location not retrievable.
         setLoading(true)
         try {
-            const res = await purchaseConsult(provider?.signer, itemId);
-            setResult({ ...res, contractUrl: getExplorerUrl(itemId) })
+            const res = await purchaseConsult(signer, itemId);
+            setResult({ ...res, contractUrl: getExplorerUrl(activeChain, itemId) })
         } catch (e) {
             setError(humanError(e.message));
         } finally {
@@ -38,13 +39,12 @@ export default function ProfilePage({ network, provider, account }) {
         setError(undefined)
         setLoading(true)
         try {
-            const res = await getMetadata(provider?.signer, itemId)
+            const res = await getMetadata(signer, itemId)
             const d = JSON.parse(res || '{}')
             setData(d)
         } catch (e) {
             console.error('error fetching profile information', e)
-            let { reason } = e
-            setError(humanError(reason))
+            setError(humanError(e.message))
         } finally {
             setLoading(false)
         }
@@ -68,12 +68,33 @@ export default function ProfilePage({ network, provider, account }) {
 
 
     return (
-        <div className='boxed container'>
-            <Card title={cardHeading}>
-                {JSON.stringify(data)}
-                {/* TODO: add profile info here */}
+        <div className='boxed container profile-page'>
+            <Layout>
+                <Sider
+                >
+                    <EnsAvatar address={itemId} />
+                </Sider>
+                <Content>
 
-            </Card>
+                    <Card title={cardHeading}>
+                        {/* TODO: pull in third party media from nextid and airstack. */}
+                        {JSON.stringify(data)}
+                        <br/>
+                        <br/>
+                        {/* TODO: add profile info here */}
+
+                        <h1>Offers</h1>
+                        <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+
+
+                        <h1>Purchase a consult</h1>
+                        <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+
+
+                    </Card>
+                </Content>
+            </Layout>
+
         </div>
     )
 }

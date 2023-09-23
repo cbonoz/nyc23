@@ -119,6 +119,14 @@ textarea {
   background: #eee !important;
 }
 
+.ant-layout-sider {
+  background: white !important;
+}
+
+.profile-page .ant-card-head {
+  /* background: white !important */
+}
+
 .about-logo {
   width: 200px;
 }

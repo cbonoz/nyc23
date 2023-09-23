@@ -10,22 +10,23 @@ function EnsAvatar() {
   return (
     <div
       style={{
-        display: 'flex',
+        // display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
       }}
     >
       <img
         src={ensAvatar.data || 'https://i.imgur.com/UhV7H97.jpeg'}
-        style={{ width: '2rem', height: '2rem', objectFit: 'cover' }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 1 }}
       />
-      <span>
+      <span className='ens-name'>
         {ensName.isError
           ? 'Error loading name'
           : ensName.isLoading
           ? 'Loading...'
           : ensName.data || 'No name set'}
       </span>
+      
     </div>
   )
 }

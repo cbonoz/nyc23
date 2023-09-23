@@ -21,6 +21,7 @@ import './App.css';
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import ProfilePage from "./components/ProfilePage";
 import CreateContract from "./components/CreateContract";
+import { Research } from "./components/Research";
 
 window.Buffer = window.Buffer || Buffer;
 
@@ -50,6 +51,12 @@ function App() {
     }
 
     const wallet = wallets[0];
+    const { chainId } = await provider.getNetwork()
+    if (chainId === activeChain.id) {
+      return
+    }
+    console.log('switching network', activeChain.id, 'from', chainId)
+
     try {
       await wallet.switchChain(activeChain.id);
     } catch (e) {
@@ -64,11 +71,10 @@ function App() {
     }
     console.log('wallets', wallets, user, user?.linkedAccounts)
     const wallet = wallets[0]
-    await wallet.loginOrLink();
     setAccount(wallet.address)
     const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === 'privy') || wallets[0];
     if (embeddedWallet) {
-      const p = await embeddedWallet.getEthereumProvider();
+      const p = await embeddedWallet.getEthersProvider();
       console.log('provider', p)
       setProvider(p)
       if (p.getSigner) {
@@ -111,7 +117,7 @@ function App() {
               <Menu.Item key={'/create'} onClick={() => navigate("/create")}>
                 <FormOutlined /> Create your page
               </Menu.Item>
-              <Menu.Item key={'/research'} onClick={() => navigate("/create")}>
+              <Menu.Item key={'/research'} onClick={() => navigate("/research")}>
                 <FormOutlined /> Research
               </Menu.Item>
             </>}
@@ -175,8 +181,9 @@ function App() {
               <Route path="/" element={<Home />} />
               {/* <Route path="/carbon-map" element={<Home/>}/> */}
               <Route path="/about" element={<About />} />
-              <Route path="/create" element={<CreateContract activeChain={activeChain} switchNetwork={switchNetwork} provider={provider} account={account} />} />
-              <Route path="/profile/:pageId" element={<ProfilePage switchNetwork={switchNetwork} provider={provider} account={account} />} />
+              <Route path="/research" element={<Research />} />
+              <Route path="/create" element={<CreateContract activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
+              <Route path="/profile/:pageId" element={<ProfilePage switchNetwork={switchNetwork} signer={signer} account={account} />} />
             </Routes>
           </div>
         </Content>
