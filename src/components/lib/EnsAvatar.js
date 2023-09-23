@@ -20,7 +20,7 @@ function EnsAvatar({chainId, address}) {
       />
       <span className='ens-name'>
         {ensName.isError
-          ? 'Error loading name'
+          ? ''
           : ensName.isLoading
           ? 'Loading...'
           : ensName.data || 'No name set'}

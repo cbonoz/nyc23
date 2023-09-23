@@ -26,7 +26,6 @@ const AirstackQuery = ({ identity }) => {
 
 
     return <div>
-        <Card title={`${APP_NAME} breakdown for ${identity}`} style={{ width: '100%' }}>
             <Row>
                 <Col span={8}>
                     <h2>Owned domains</h2>
@@ -86,7 +85,6 @@ const AirstackQuery = ({ identity }) => {
             /> */}
             <Divider/>
             Pulled from <a href="https://airstack.com" target="_blank">Airstack</a> and <a href="https://next.id" target="_blank">Next.ID</a> profiles.
-        </Card>
         {/* {JSON.stringify(data)} */}
     </div>
 }

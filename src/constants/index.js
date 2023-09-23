@@ -3,7 +3,7 @@ import { sepolia, xdcTestnet, neonDevnet, filecoinCalibration } from 'viem/chain
 export const APP_NAME = 'Web3backers'
 // export const APP_DESC = 'Web3backers is a platform for backing and learning from your favorite web3 creators.'
 // export const APP_DESC = 'Monetize your expertise.'
-export const APP_DESC = 'Your ultimate web3 sidehustle.'
+export const APP_DESC = 'Your ultimate web3 sidehustle'
 
 export const NEXTID_BASE_URL='https://proof-service.next.id/'
 

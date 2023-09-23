@@ -43,9 +43,11 @@ contract UserContract {
 
     // function emitBu
 
+    event PurchaseEvent(address indexed _address, string _cid);
+
     function purchaseAccess() public payable returns (string memory) {
         require(active, "Contract was marked inactive by creator");
-        if (offer.price != 0) {
+        if (offer.price != 0 && !hasAccess[msg.sender]) {
             require(
                 msg.value == offer.price,
                 "Incorrect price, please call contract with nonzero value"
@@ -53,6 +55,7 @@ contract UserContract {
             // Transfer to deployer.
             payable(deployer).transfer(msg.value);
         }
+        emit PurchaseEvent(msg.sender, offer.cid);
         hasAccess[msg.sender] = true;
         return offer.cid;
     }

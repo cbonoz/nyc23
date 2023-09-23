@@ -35,7 +35,7 @@ function App() {
   const [account, setAccount] = useState()
   const [provider, setProvider] = useState()
   const [signer, setSigner] = useState()
-  const [activeChain, setActiveNetwork] = useState(ACTIVE_CHAIN)
+  const [activeChain, setActiveNetwork] = useState(CHAIN_OPTIONS[localStorage.getItem("chainId")] || ACTIVE_CHAIN)
 
   const pathname = window.location.pathname
   const isContractPage = pathname.indexOf('/policy/') !== -1
@@ -146,6 +146,8 @@ function App() {
                 value={activeChain.id}
                 onChange={(value) => {
                   const chain = CHAINS.find((chain) => chain.id === value)
+                  // Save local
+                  localStorage.setItem('chainId', chain.id);
                   setActiveNetwork(chain)
                 }}
               >

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react"
 
 import { useNavigate } from "react-router"
 import { Divider, Input } from "antd/lib"
-import { AIRSTACK_KEY, AIRSTACK_QUERY } from "../constants"
+import { AIRSTACK_KEY, AIRSTACK_QUERY, APP_NAME } from "../constants"
 import { useQuery, init } from "@airstack/airstack-react"
 import AirstackQuery from "./lib/AirstackQuery"
+import { Card } from "antd/es"
 
 // init(AIRSTACK_KEY)
 
@@ -16,13 +17,16 @@ export const Research = () => {
         <div className="centered">
             <h1>Research Hub</h1>
             <h3>Because reputation often doesn't just come from one source</h3>
-        <Input placeholder="Search ENS" prefix={'Search ENS:'}
-            value={identity}
-            onChange={(e) => setIdentity(e.target.value)}
-        />
+            <Input placeholder="Search ENS" prefix={'Search ENS:'}
+                value={identity}
+                onChange={(e) => setIdentity(e.target.value)}
+            />
         </div>
         <Divider />
-        <AirstackQuery identity={identity} />
+
+        <Card title={`${APP_NAME} breakdown for ${identity}`} style={{ width: '100%' }}>
+            <AirstackQuery identity={identity} />
+        </Card>
 
     </div>
 }

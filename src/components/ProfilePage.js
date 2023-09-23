@@ -16,8 +16,9 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
     const [error, setError] = useState()
     const [result, setResult] = useState()
     const [loading, setLoading] = useState(false)
+    const [cid, setCid] = useState()
     const [location, setLocation] = useState()
-    const [data, setData] = useState()
+    const [data, setData] = useState({})
     const [confirmModal, setConfirmModal] = useState(false);
 
     const params = useParams()
@@ -28,7 +29,7 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         setLoading(true)
         try {
             const res = await purchaseOffer(signer, itemId);
-            setResult({ ...res, contractUrl: getExplorerUrl(activeChain, itemId) })
+            setCid(cid)
         } catch (e) {
             setError(humanError(e.data.message || e.message));
         } finally {
@@ -103,6 +104,7 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         </span>
     }
 
+    const symbol = activeChain.nativeCurrency.symbol;
     return (
         <div className='boxed container profile-page'>
             <Layout>
@@ -115,6 +117,8 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
 
                     <Card style={{ background: 'white' }} title={cardHeading}>
                         <h1>{data?.purpose}</h1>
+
+                        <p>View credentials and see options to engage with {data?.name} below</p>
                         {/* TODO: pull in third party media from nextid and airstack. */}
                         {/* {JSON.stringify(data)} */}
                         <br />
@@ -139,18 +143,23 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
                                 })}
                                 Powered by Next.ID
                             </Card></div>}
-                                    <br/>
+                        <br />
 
-                        {data.ens && <Card title="Web3 Reputation">
-                            <AirstackQuery identity={data.ens}/>
+                        {data?.ens && <Card title="Web3 Reputation">
+                            <AirstackQuery identity={data?.ens} />
                         </Card>}
                         <Card title="Offers">
-                            <Button type='primary' onClick={buyOffer}>Buy offer</Button>
+                            {data?.offerDescription && <p>{data.offerDescription}</p>}
+                            <Button type='primary' disabled={cid} onClick={buyOffer}>Buy offer ({data.offerPrice} {symbol})</Button>
+                            {cid && <div>
+                                <p className='success-text'>Thanks for your purchase</p>
+                                <a href={ipfsUrl(cid)} target="_blank">Access Content</a>
+                            </div>}
                         </Card>
-                                    <br/>
+                        <br />
 
                         <Card title="Consult">
-                            <Button type='primary' onClick={buyConsult}>Purchase a consult</Button>
+                            <Button type='primary' onClick={buyConsult}>Purchase a consult ({data.consultFee} {symbol})</Button>
                         </Card>
 
                     </Card>

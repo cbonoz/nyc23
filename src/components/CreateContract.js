@@ -79,7 +79,8 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
         cid,
         data.offerPrice,
         data.offerDescription,
-        data.consultFee
+        data.consultFee,
+        data.ens
       );
 
 
@@ -130,7 +131,7 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
                 {/* <h3 className="vertical-margin">Profile information:</h3> */}
                 <h4>Page name</h4>
                 <Input
-                  placeholder="Name of listing"
+                  placeholder="Your name"
                   prefix="Name: "
                   value={data.name}
                   onChange={(e) => updateData("name", e.target.value)}
@@ -160,6 +161,7 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
                 {data.offerActive && <Card title="Offer">
 
 
+                <h4>Offer Description</h4>
                 <TextArea
                     aria-label="Offer description"
                     onChange={(e) => updateData("offerDescription", e.target.value)}
