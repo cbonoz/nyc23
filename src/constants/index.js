@@ -1,4 +1,4 @@
-import { scrollSepolia, xdcTestnet, neonDevnet } from 'wagmi/chains'
+import { scrollSepolia, xdcTestnet, neonDevnet, filecoinCalibration } from 'wagmi/chains'
 
 export const APP_NAME = 'Web3backers'
 export const APP_DESC = 'Web3backers is a platform for backing and learning from your favorite web3 creators.'
@@ -10,14 +10,15 @@ export const CHAIN_OPTIONS = {
     [scrollSepolia.id]: scrollSepolia,
     [xdcTestnet.id]: xdcTestnet,
     [neonDevnet.id]: neonDevnet,
+    [filecoinCalibration.id]: filecoinCalibration,
 }
 
 export const ACTIVE_CHAIN = CHAIN_OPTIONS[534351]
 
 export const EXAMPLE_FORM = {
     "id": 1,
-    "name": "Chris Buonocore",
-    "mission": "Chris Buonocore is creating web3 projects",
+    "name": "Chris",
+    "purpose": "Chris is creating web3 projects",
     "address": "0x3CCAFaC2Cd44664bBb22F1fe9FBaEbcfcFFB2898",
     "offers": "",
     "consult": [],

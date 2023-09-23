@@ -6,6 +6,8 @@ import { deployContract } from "../contract/profileContract";
 import FormItem from "antd/es/form/FormItem";
 import TextArea from "antd/es/input/TextArea";
 import { FileDrop } from "./lib/FileDrop";
+import { useAccount } from "wagmi";
+
 
 const { Step } = Steps;
 
@@ -15,6 +17,7 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
   const [lastInflation, setLastInflation] = useState();
+
   // const { chain } = useNetwork()
   // const { chains, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork()
 
@@ -32,19 +35,10 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
 
   const getActiveError = (data) => {
     if (!data.name) {
-      return "Please provide a name for the item.";
-    } else if (!data.payout) {
-      return "Please provide a payout amount.";
-    } else if (!data.premium) {
-      return "Please provide a premium amount.";
-    } else if (!data.expiration) {
-      return "Please provide an expiration date.";
-    } else if (!data.inflationTarget) {
-      return "Please provide an inflation target.";
-    } else if (lastInflation && data.inflationTarget < lastInflation) {
-      return "Inflation target must be greater than the current inflation rate.";
-    }
-
+      return "Please provide a profile page name.";
+    } else if (!data.purpose) {
+      return "Please provide a purpose for the " + APP_NAME + " page.";
+    }    
     return undefined
   };
 
@@ -72,20 +66,15 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
 
     try {
       // Deploy base contract with metadata,
-      const selectedDateMs = data.expiration.unix() * 1000
-
       const contract = await deployContract(
         provider?.signer,
         data.name,
-        data.payout,
-        data.premium,
-        selectedDateMs,
-        data.inflationTarget
+        data.purpose
       );
 
       // Return shareable url for policy.
       res["contract"] = contract.address;
-      res["contractUrl"] = getExplorerUrl(contract.address);
+      res["contractUrl"] = getExplorerUrl(activeChain, contract.address);
       res["policyUrl"] = insureUrl(contract.address);
 
       // Result rendered after successful doc upload + contract creation.
@@ -133,13 +122,13 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
               />
               <br />
               <br />
-              <h5>Description</h5>
+              <h5>Purpose / Headline</h5>
               <TextArea
-                aria-label="Description"
-                onChange={(e) => updateData("mission", e.target.value)}
+                aria-label="Purpose / Headline"
+                onChange={(e) => updateData("purpose", e.target.value)}
                 placeholder="Your mission statement"
-                prefix="Description"
-                value={data.description}
+                prefix="Purpose"
+                value={data.purpose}
               />
 
               <h5>Add offers</h5>
@@ -161,7 +150,7 @@ function CreateContract({ account, provider, switchNetwork, activeChain }) {
                   loading={loading}
                   size="large"
                 >
-                  Create policy
+                  Create profile page
                 </Button>
                 {!error && !result && loading && (
                   <span>&nbsp;Note this may take a few moments.</span>

@@ -25,7 +25,7 @@ export async function uploadFiles(files, metadata) {
   return cid;
 }
 
-export const getMetadata = (baseUrl) => {
+export const getMetadataFile = (baseUrl) => {
   const url = `${baseUrl}/metadata.json`;
   return axios.get(url);
 };

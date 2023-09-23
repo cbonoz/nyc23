@@ -1,16 +1,16 @@
 import { ethers } from "ethers";
 import { USER_CONTRACT} from "../util/metadata";
 
-export async function deployContract(signer, cid, price) {
+export async function deployContract(signer, name, purpose) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
         USER_CONTRACT.abi,
         USER_CONTRACT.bytecode,
         signer
     );
-    const contract = await factory.deploy(cid, price);
+    const contract = await factory.deploy(name, purpose);
     // log
-    console.log("Deploying contract...", cid, price);
+    console.log("Deploying contract...", name, purpose);
     await contract.deployed();
     console.log("deployed contract...", contract.address);
     return contract;

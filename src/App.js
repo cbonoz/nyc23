@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Button, Layout, Menu, Select, Spin } from "antd";
@@ -7,7 +9,7 @@ import {
   FormOutlined,
 } from "@ant-design/icons";
 import { About } from "./components/About";
-import { ACTIVE_CHAIN, APP_DESC, APP_NAME } from "./constants";
+import { ACTIVE_CHAIN, APP_DESC, APP_NAME, CHAIN_OPTIONS } from "./constants";
 import 'antd/dist/reset.css';
 
 import "@ant-design/flowchart/dist/index.css";
@@ -15,11 +17,12 @@ import logo from "./assets/logo.png";
 import { abbreviate, isEmpty } from "./util";
 
 
-
 import './App.css';
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import ProfilePage from "./components/ProfilePage";
 import CreateContract from "./components/CreateContract";
+
+window.Buffer = window.Buffer || Buffer;
 
 const { Header, Footer, Content } = Layout;
 const { Option } = Select;
@@ -27,14 +30,19 @@ const { Option } = Select;
 function App() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const { ready, authenticated, user, connectWallet, logout } = usePrivy();
+  const { ready, authenticated, user, login, logout } = usePrivy();
   const [account, setAccount] = useState()
   const [provider, setProvider] = useState()
+  const [signer, setSigner] = useState()
   const [activeChain, setActiveNetwork] = useState(ACTIVE_CHAIN)
 
   const pathname = window.location.pathname
   const isContractPage = pathname.indexOf('/policy/') !== -1
   const { wallets } = useWallets();
+
+  async function loginUser() {
+    await login();
+  }
 
   const switchNetwork = async () => {
     if (isEmpty(wallets)) {
@@ -51,22 +59,34 @@ function App() {
 
 
   async function onLogin() {
-    if (isEmpty(wallets)) {
+    if (isEmpty(wallets) || provider) {
       return
     }
-    setAccount(wallets[0].address)
-    const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === 'privy');
+    console.log('wallets', wallets, user, user?.linkedAccounts)
+    const wallet = wallets[0]
+    await wallet.loginOrLink();
+    setAccount(wallet.address)
+    const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === 'privy') || wallets[0];
     if (embeddedWallet) {
-    const p = await embeddedWallet.getEthereumProvider();
-    setProvider(p) 
+      const p = await embeddedWallet.getEthereumProvider();
+      console.log('provider', p)
+      setProvider(p)
+      if (p.getSigner) {
+        const s = await p.getSigner()
+        setSigner(s);
+      }
     } else {
-      console.log('no embeebed wallet found', wallets)
+      console.log('no embedded wallet found', wallets)
     }
 
   }
   useEffect(() => {
-    onLogin()
-  }, [authenticated, wallets]);
+    try {
+      onLogin()
+    } catch (e) {
+      console.error('error logging in', e)
+    }
+  }, [authenticated, wallets, user]);
 
   const isLoggedIn = !!account
 
@@ -101,7 +121,7 @@ function App() {
               <QuestionCircleOutlined /> About
             </Menu.Item>
             {!isLoggedIn && <span>
-              <Button type="primary" onClick={connectWallet}>Connect Wallet</Button>
+              <Button type="primary" onClick={loginUser}>Connect Wallet</Button>
             </span>}
             {isLoggedIn && <span>
               {account && <span>
@@ -113,6 +133,24 @@ function App() {
               }}>logout</a>)
               {/* <Button onClick={disconnect}>Disconnect</Button> */}
             </span>}
+
+            <span>
+              {/* select chain */}
+              <Select
+                style={{ width: 240 }}
+                value={activeChain.id}
+                onChange={(value) => {
+                  const chain = Object.values(CHAIN_OPTIONS).find((chain) => chain.id === value)
+                  setActiveNetwork(chain)
+                }}
+              >
+                {Object.values(CHAIN_OPTIONS).map((chain) => {
+                  return <Option value={chain.id}>{chain.name}</Option>
+                }
+                )}
+              </Select>
+
+            </span>
             {/* <span className="web3-button">
               {isLoggedIn
                 ? <AuthedState />
@@ -126,7 +164,7 @@ function App() {
         </Header>
         <Content>
           <span className="no-print" style={{ right: 0, position: 'absolute' }}>
-            &nbsp;Network: <b>{ACTIVE_CHAIN.name}</b>
+            &nbsp;Network: <b>{activeChain.name}</b>
             {/* {account && <span>
               ,&nbsp;Logged in: <b>{abbreviate(account.address)}</b>
             </span>} */}

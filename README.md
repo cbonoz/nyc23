@@ -85,17 +85,19 @@ Develop an innovative DeFi solution on a supported EVM that has a meaningful imp
 
 Copy `.env.sample` - `.env`
 
-Define the following environment variables.
+Define the included environment variables with your own custom values. This includes keys for filecoin storage, privy authentication, and airstack.
 
-<pre>
-
-</pre>
 
 `yarn; yarn dev`
 
 Web3backers should now be running on port 3000.
 
-<b>Note this project is currently a prototype and would require additional work to be production ready on Chainlink mainnet.</b>
+<!-- <b>Note this project is currently a prototype and would require additional work to be production ready on Chainlink mainnet.</b> -->
+
+### Deployment
+
+1. `yarn build` to generate a production build (note that you must set all env variables in .env).
+2. `yarn deploy` is currently set to use surge.sh. Feel free to replace with the distributed host of your choosing.
 
 ### Potential future work
 

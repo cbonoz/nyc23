@@ -6,11 +6,15 @@ contract UserContract {
 
   address public deployer;
   bool public active;
+  string public name;
+  string public purpose;
   mapping(address => bool) public hasAccess;
 
-  constructor() {
+  constructor(string memory _name, string memory _purpose) {
     deployer = msg.sender;
     active = true;
+    name = _name;
+    purpose = _purpose;
   }
 
   // function purchaseAccess() public payable returns (string memory) {
@@ -42,6 +46,10 @@ contract UserContract {
   function toggleActive() public {
     require(msg.sender == deployer);
     active = !active;
+  }
+
+  function getMetadata() public view returns (string memory, string memory) {
+    return (name, purpose);
   }
 
 }
