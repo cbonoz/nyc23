@@ -2,7 +2,7 @@ import { Button, Card, Col, Grid, Modal, Result, Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { APP_NAME, EXAMPLE_FORM } from '../constants'
-import { getMetadata, purchaseConsult, purchaseOffer } from '../contract/profileContract'
+import { getMetadata, purchaseAccess, purchaseConsult } from '../contract/profileContract'
 import { capitalize, formatDate, getExplorerUrl, humanError, ipfsUrl, isEmpty } from '../util'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
@@ -28,7 +28,7 @@ export default function ProfilePage({ network, provider, signer, activeChain, ac
         // TODO: add error check for preset location if user denied permission or location not retrievable.
         setLoading(true)
         try {
-            const res = await purchaseOffer(signer, itemId);
+            const res = await purchaseAccess(signer, itemId);
             setCid(cid)
         } catch (e) {
             setError(humanError(e.data.message || e.message));
