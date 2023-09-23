@@ -8,6 +8,13 @@ export function addMinutes(numOfMinutes, date = new Date()) {
 
 export const abbreviate = s => s ? `${s.substr(0, 6)}**` : ''
 
+// Grade score out of 100 on activity across number of token balances, owned domains, and poaps
+// Do null checks
+export const getActivityScore = (numTokens, numDomains, numPoaps, numSocials) => {
+    const score = (numTokens || 0) + (numDomains || 0) + (numPoaps || 0) + (numSocials || 0)
+    return Math.round(score > 99 ? 99 : score*2.5);
+}
+    
 
 export const formatDate = (d) => {
     if (!(d instanceof Date)) {

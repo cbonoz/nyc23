@@ -1,15 +1,19 @@
+const webpack = require('webpack');
 module.exports = {
-    plugins: [
-      {
-        plugin: {
-          overrideWebpackConfig: ({ webpackConfig }) => {
-            webpackConfig.resolve.fallback = {
-              buffer: require.resolve('buffer/'),
-            };
-            return webpackConfig;
-          },
+    webpack: {
+        configure: {
+            resolve: {
+                fallback: {
+                    buffer: require.resolve('buffer'),
+                },
+            },
         },
-      },
-    ],
-  };
-  
+        plugins: {
+            add: [
+                new webpack.ProvidePlugin({
+                    Buffer: ['buffer', 'Buffer'],
+                }),
+            ],
+        },
+    },
+};

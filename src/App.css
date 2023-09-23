@@ -54,6 +54,12 @@
   /* margin-top: 12px;; */
 }
 
+.activity-score {
+  margin-left: 20px;
+  font-size: 24px;
+  margin-bottom: 20px
+}
+
 .success-text {
   color: green;
 }

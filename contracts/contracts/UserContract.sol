@@ -86,8 +86,8 @@ contract UserContract {
     function getMetadata()
         public
         view
-        returns (string memory, string memory, Offer memory, uint256, string memory)
+        returns (string memory, string memory, Offer memory, uint256, string memory, uint256)
     {
-        return (name, purpose, offer, consultFee, ens);
+        return (name, purpose, offer, consultFee, ens, chainId);
     }
 }

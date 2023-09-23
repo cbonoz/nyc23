@@ -47,6 +47,10 @@ Upload
 Sepolia: 0xb1F35230c645C12Bc3066dcdcd774E704983d208
 Verification: `cd contracts; yarn verify-sepolia 0xb1F35230c645C12Bc3066dcdcd774E704983d208`
 
+### Example profile page
+
+http://localhost:3000/profile/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
+
 * url: 
 * Example verification url:
 
@@ -82,6 +86,7 @@ Develop an innovative DeFi solution on a supported EVM that has a meaningful imp
 * Next.id: Profiles and social
 * Privy: Authentication
 * ENS account abstraction (can use cbono.eth)
+* XMTP
 
 Maybe:
 * Unlock protocol for gated content

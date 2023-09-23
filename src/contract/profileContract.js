@@ -15,22 +15,10 @@ export async function deployContract(signer, name, purpose, chainId, cid, offerP
     consultFee = ethers.utils.parseEther(consultFee.toString());
     const contract = await factory.deploy(name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens);
     // log
-    console.log("Deploying contract...", name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens);
+    console.log("Deploying contract...", name, purpose, chainId, cid, offerPrice.toString(), offerDescription, consultFee.toString(), ens);
     await contract.deployed();
     console.log("deployed contract...", contract.address);
-    if (true) {
-
-        // const newContract = new ethers.Contract(contract.address, USER_CONTRACT.bytecode, signer);
-        const tx = await contract.verify();
-
-        const receipt = await tx.wait();
-
-        if (receipt.status === 1) {
-            console.log("Contract verified successfully!");
-        } else {
-            console.log("Failed to verify contract!");
-        }
-    }
+   
     return contract;
 }
 

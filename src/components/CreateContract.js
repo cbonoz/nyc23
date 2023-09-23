@@ -204,7 +204,9 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
 
                 <Divider/>
                 <h2>3. Set a messaging fee</h2>
-                <p>Users can message you to your address by paying a specified fee.</p>
+                <p>Users can message you to your address by paying a specified fee.
+                  Note your current address below must have XMTP enabled.
+                  </p> 
 
                 <Input
                 type="number"

@@ -22,6 +22,8 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import ProfilePage from "./components/ProfilePage";
 import CreateContract from "./components/CreateContract";
 import { Research } from "./components/Research";
+import Conversation from "./components/Conversation";
+// import Conversation from "./components/Conversation";
 
 window.Buffer = window.Buffer || Buffer;
 
@@ -185,6 +187,8 @@ function App() {
               <Route path="/research" element={<Research />} />
               <Route path="/create" element={<CreateContract activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
               <Route path="/profile/:pageId" element={<ProfilePage activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
+              {/* conversation */}
+              <Route path="/conversation/:targetAddress" element={<Conversation activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
             </Routes>
           </div>
         </Content>

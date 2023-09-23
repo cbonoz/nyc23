@@ -1,4 +1,4 @@
-import { Button, Card, Col, Grid, Modal, Result, Spin } from 'antd'
+import { Button, Card, Row, Col, Grid, Modal, Result, Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { APP_NAME, EXAMPLE_FORM } from '../constants'
@@ -11,6 +11,7 @@ import { getProfilesForIdentity } from '../util/nextid'
 import { Avatar, Divider } from 'antd/lib'
 import { render } from '@testing-library/react'
 import AirstackQuery from './lib/AirstackQuery'
+import { ethers } from 'ethers'
 
 export default function ProfilePage({ provider, signer, activeChain, account }) {
     const [error, setError] = useState()
@@ -31,7 +32,7 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
             const res = await purchaseAccess(signer, itemId);
             setCid(cid)
         } catch (e) {
-            setError(humanError(e.data.message || e.message));
+            setError(humanError(e.data?.message || e.message));
         } finally {
             setLoading(false)
         }
@@ -44,7 +45,7 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
             const res = await purchaseConsult(signer, itemId);
             setResult({ ...res, contractUrl: getExplorerUrl(activeChain, itemId) })
         } catch (e) {
-            setError(humanError(e.data.message || e.message));
+            setError(humanError(e.data?.message || e.message));
         } finally {
             setLoading(false)
         }
@@ -57,7 +58,19 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
             let res = {}
             try {
                 res = await getMetadata(signer, itemId)
-                res = JSON.parse(res || '{}')
+                const d = {
+                    name: res[0],
+                    description: res[1],
+                    offerPrice: ethers.utils.formatEther(res[2][0]),
+                    offerDescription: res[2][1],
+                    cid: res[2][2],
+                    consultFee: ethers.utils.formatEther(res[3]),
+                    ens: res[4],
+                    chainId: res[5],
+
+                }
+                res = d
+                // res = JSON.parse(d || '{}')
             } catch (e) {
                 console.error('error fetching contract info, using default', e)
                 res = { ...EXAMPLE_FORM }
@@ -80,7 +93,7 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
         }
     }, [itemId, signer])
 
- 
+
     const decodedName = `Profile: ${decodeURIComponent(data?.name || '')}`
 
     const cardHeading = decodedName ?
@@ -127,7 +140,35 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
                     <Card style={{ background: 'white' }} title={cardHeading}>
                         <h1>{data?.purpose}</h1>
 
-                        <p>View credentials and see options to engage with {data?.name} below</p>
+                        <p>View credentials and see options to engage with {data?.name} below.</p>
+
+                        <Row gutter={{
+                            xs: 8,
+                            sm: 16,
+                            md: 24,
+                            lg: 32,
+                        }}>
+                            <Col span={12}>
+                                <Card title="Offers">
+                                    {data?.offerDescription && <p>{data.offerDescription}</p>}
+                                    <Button type='primary' disabled={cid} onClick={buyOffer}>Buy offer ({data.offerPrice} {symbol})</Button>
+                                    {cid && <div>
+                                        <p className='success-text'>Thanks for your purchase</p>
+                                        <a href={ipfsUrl(cid)} target="_blank">Access Content</a>
+                                    </div>}
+                                </Card>
+                            </Col>
+                            <Col span={12}>
+
+
+                                <Card title="Consult">
+                                    <p>Get directly in contact via&nbsp;
+                                        <a href="https://xmtp.chat/" target="_blank">XMTP</a>
+                                        by paying their set fee.</p>
+                                    <Button type='primary' onClick={buyConsult}>Purchase a consult ({data.consultFee} {symbol})</Button>
+                                </Card>
+                            </Col>
+                        </Row>
                         {/* TODO: pull in third party media from nextid and airstack. */}
                         {/* {JSON.stringify(data)} */}
                         <br />
@@ -154,22 +195,20 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
                             </Card></div>}
                         <br />
 
-                        {data?.ens && <Card title="Web3 Reputation">
+                        {/* {data?.ens && <div>
+                            <Collapse items={[
+                                {
+                                    key: 'reputation',
+                                    label: "Web3 Reputation",
+                                    children: <AirstackQuery identity={data?.ens} />
+                                }
+                            ]} /></div>}
+                            <br/> */}
+
+                        {data?.ens && <Card title={`${APP_NAME} Reputation Insights`}>
                             <AirstackQuery identity={data?.ens} />
                         </Card>}
-                        <Card title="Offers">
-                            {data?.offerDescription && <p>{data.offerDescription}</p>}
-                            <Button type='primary' disabled={cid} onClick={buyOffer}>Buy offer ({data.offerPrice} {symbol})</Button>
-                            {cid && <div>
-                                <p className='success-text'>Thanks for your purchase</p>
-                                <a href={ipfsUrl(cid)} target="_blank">Access Content</a>
-                            </div>}
-                        </Card>
-                        <br />
 
-                        <Card title="Consult">
-                            <Button type='primary' onClick={buyConsult}>Purchase a consult ({data.consultFee} {symbol})</Button>
-                        </Card>
 
                     </Card>
                 </Content>

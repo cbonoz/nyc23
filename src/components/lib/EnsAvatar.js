@@ -23,7 +23,7 @@ function EnsAvatar({chainId, address}) {
           ? ''
           : ensName.isLoading
           ? 'Loading...'
-          : ensName.data || 'No name set'}
+          : ensName.data || ''}
       </span>
       
     </div>
