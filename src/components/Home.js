@@ -7,7 +7,7 @@ import { CheckCircleTwoTone } from '@ant-design/icons';
 
 const CHECKLIST_ITEMS = [
   "Create a page in minutes. Monetize your expertise, time, and business using your existing reputation.",
-  "Import your existing social media links and followers into your page.",
+  "Web3backers automatically pulls your existing social media profiles into your page from connected web3 and web2 networks.",
   "No user accounts or vendor agreements required."
 ];
 
