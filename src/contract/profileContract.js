@@ -30,7 +30,8 @@ export async function purchaseConsult(signer, contractAddress, price) {
         signer
     );
     // log
-    const tx = await contract.purchaseConsult({ value: price });
+    const value = ethers.utils.parseEther(price.toString());
+    const tx = await contract.purchaseConsult({ value });
     await tx.wait();
     console.log("Purchased consult...", tx);
     return tx;
