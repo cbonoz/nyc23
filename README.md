@@ -122,8 +122,8 @@ Web3backers should now be running on port 3000.
 
 ## Screenshots / User flow
 
-### Home
-<img src="./img/home.png" width=800 />
+![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/logo.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/scroll.png) ![Alt text](img/xmtp1.png)
+
 
 <!--
 
