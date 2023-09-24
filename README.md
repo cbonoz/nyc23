@@ -80,7 +80,8 @@ Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e12
 
 ### Technologies used
 
-Technologies and how they are used:
+Web3backers mainly uses a few core technologies around social data aggregation and low-cost contract networks. Technologies and how they are used:
+
 * Filecoin/IPFS: Filecoin/IPFS: Contract deployment compatible with FEVM. Filecoin also serves uploaded content and the smart contract provides an access barrier to the addressed content based on cid. FEVM deployment code here used in app also: Deployment code for testnet FEVM smart contract also used in app.
 * Scroll: Contract deployment on L2. Low cost and L2 networks helps reduce transaction fees and improve scalability, making it cost-effective for users and creators to interact with the platform. Scroll adds a level of auditability to all interactions with the profile page.
 * Neon: Main Contract deployment option that helps with gating and auditing at low cost / high throughput. Payments for consulting fees can be handled through the platform without the need for email addresses. Neon also adds a level of auditability to all interactions for each user's profile page on on an external chain.
