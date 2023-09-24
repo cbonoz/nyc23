@@ -49,7 +49,7 @@ const AirstackQuery = ({ identity }) => {
             <Col span={8}>
                 <h2>Owned domains</h2>
                 <List
-                    dataSource={domains}
+                    dataSource={domains || []}
                     renderItem={(domain) => (
                         <List.Item key={domain.name}>
                             <a href={getBioUrl(domain.name)} target="_blank">
@@ -63,7 +63,7 @@ const AirstackQuery = ({ identity }) => {
                 <h2>POAPs</h2>
                 <List
                     itemLayout="horizontal"
-                    dataSource={poaps}
+                    dataSource={poaps || []}
                     renderItem={(poap) => (
                         <List.Item key={poap.poapEvent.eventName} >
                             <a href={poap.poapEvent.eventURL} target="_blank">
@@ -78,7 +78,7 @@ const AirstackQuery = ({ identity }) => {
 
                 <List
                     itemLayout="horizontal"
-                    dataSource={socials}
+                    dataSource={socials || []}
                     renderItem={(social) => (
                         <List.Item key={social.profileName}>
                             <List.Item.Meta title={social.profileName} />

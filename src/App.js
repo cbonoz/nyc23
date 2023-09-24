@@ -44,7 +44,12 @@ function App() {
   const { wallets } = useWallets();
 
   async function loginUser() {
-    await login();
+    try {
+      login();
+    } catch (e) {
+      console.error('error logging in', e)
+      await logout();
+    }
   }
 
   const switchNetwork = async () => {
