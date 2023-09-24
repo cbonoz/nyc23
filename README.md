@@ -45,15 +45,24 @@ Existing platforms for creator monetization exist such as Patreon and Buy Me a C
 
 ### Example Web3backers profile pages
 
+Toggle the app switch and your active wallet network to use the given network.
+
 
 #### Scroll Sepolia 
 
 Example contract: https://sepolia-blockscout.scroll.io/address/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
 Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
 
-Filecoin Calibration:
+#### Filecoin Calibration:
 
-Neon DevNet
+Example contract: https://calibration.filscan.io/address/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41/
+Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
+
+#### Neon DevNet
+
+Example contract: https://neonscan.org/address/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
+Profile page: web3backers.surge.sh/profile/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
+
 
 ### Example contracts
 

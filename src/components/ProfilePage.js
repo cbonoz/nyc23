@@ -88,8 +88,17 @@ export default function ProfilePage({ provider, signer, activeChain, account }) 
                 console.log('res', res)
                 setData(res)
             } catch (e) {
+                let err;
+                try {
+                    // validate address
+                    ethers.utils.getAddress(itemId)
+                    err = "Error fetching profile information, are you sure you're wallet is on the correct network?"
+                } catch (e) {
+                    err = "Error fetching profile information, is this a valid Ethereum-based address?"
+
+                }
                 // console.error('error fetching contract info, using default', e)
-                setError(humanError("Error fetching profile information, are you sure you're wallet is on the correct network?"))
+                setError(humanError(err))
                 // res = { ...EXAMPLE_FORM }
             }
          
