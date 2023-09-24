@@ -1,5 +1,6 @@
 import { useEnsAvatar, useEnsName } from 'wagmi'
 import { isEmpty } from '../../util';
+import { Divider } from 'antd';
 
 // https://docs.ens.domains/dapp-developer-guide/quickstart#reverse-resolution/
 
@@ -24,6 +25,7 @@ function EnsAvatar({chainId, identities, data}) {
         src={ensAvatar.data || firstAvatar || 'https://i.imgur.com/UhV7H97.jpeg'}
         style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 1 }}
       />
+      <Divider/>
       <span>
         {ensName.isError
           ? ''
@@ -33,7 +35,9 @@ function EnsAvatar({chainId, identities, data}) {
       </span>
       <h1>{data?.name}</h1>
       <span>
+        <a href={`https://app.ens.domains/name/${data?.ens}`} target="_blank">
         {data?.ens}
+        </a>
         </span>
     </div>
   )

@@ -6,19 +6,19 @@
 Web3backers
 ---
 
-Monetize your expertise.
 
-Web3backers connects your existing social accounts and reputation (see lens, linkedin, twitter, etc.) to create a funding page for you to produce and sell content and your time. 
+Web3backers connects your existing web3 and web2 social accounts and information (see ENS< lens, linkedin, twitter, github, on-chain, etc.) to create a funding page for you to drive product sales and paid consults based on your combined reputation.
 
 Web3backers pulls information from your existing web3 and web2 networks to create a patreon-like experience without the 10% fees. Get clients and drive an alternative source of revenue.
 
-Currently supported on FEVM, Sepolia, and Neon EVM.
+Three big pieces are:
+1. Creating a monetization-focused site for web3 creators and builders without requiring starting over on a greenfield platform.
+2. Every web3backer profile page has its own smart contract deployed on either low cost or high through L1/L2 networks such as scroll, neon, and filecoin. 
+3. The shareable profile page gives you an overall network score based on data from Airstack and Next.ID. Content such as courses can be sold, or a chat opened up directly from the page on XMTP with the creator's wallet address (no emails required).
 
-Each page gets its own unique smart contract which tracks user interactions and payments. L2 and low cost chains are used to minimize
+<!-- Monetize your expertise. -->
 
-A web3 platform for creating content funding similar to onlyfans and patreon but without the middleman.
-
-Example:
+<!-- Example:
 Upload
 * Chris Buonocore - links to social (lens, twitter).
 * Chris is creating web3 tutorials.
@@ -28,7 +28,7 @@ Upload
 * Deploy contract per page (Neon, Metamask, Scroll, XDC)
 * Unlock (gated content and connection to XMTP)
 * NFT API (quicknode)
-* Mask (relationservice search) https://docs.next.id/core-concepts/relation-service/rs-example
+* Mask (relationservice search) https://docs.next.id/core-concepts/relation-service/rs-example -->
 
 <p>Note this project is currently a prototype and would require additional work to be production ready.</p>
 
@@ -62,40 +62,17 @@ http://localhost:3000/profile/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
 ###
 
 https://docs.privy.io/guide/quickstart
-### Sponsors
+### Technologies used
 
-
-* Privy: Authentication
-
-Bounty Description:
-
-1inch Developer Portal do have multiple APIs (Balances, Fiat Prices, Portfolio, Swap, Limit Order). Use any of it to enhance your project. Apps with the best use cases will be eligible for bounties
-
-Criteria:
-
-1 - Use portal.1inch.dev APIs (Any of it)
-
-2 - The utilization of 1inch Developer Portal should have a meaningful purpose
-
-Bounty Description:
-
-Develop an innovative DeFi solution on a supported EVM that has a meaningful impact on the community. Your project should introduce novel concepts or functionalities, addressing real-world problems and pushing the boundaries of DeFi
-
-* Filecoin/IPFS: Storage (web3.storage api only likely not enough, needs to use FVM). Contract deployment
-* Scroll: Contract deployment
-* Neon: Contract deployment
-* Airstack: Profiles and social
-* Next.id: Profiles and social
-* Privy: Authentication
-* ENS account abstraction (can use cbono.eth)
-* XMTP
-
-Maybe:
-* Unlock protocol for gated content
-* Quicknode NFT API
-
-* 
-
+Technologies and how they are used:
+* Filecoin/IPFS: Contract deployment compatible with FEVM. Filecoin also serves uploaded content and the smart contract provides an access barrier to the addressed content based on cid.
+* Scroll: Contract deployment on L2. Low cost and L2 networks helps reduce transaction fees and improve scalability, making it cost-effective for users and creators to interact with the platform. Scroll adds a level of auditability to all interactions with the profile page.
+* Neon: Contract deployment. Payments for consulting fees can be handled through the platform without the need for email addresses. Neon adds a level of auditability to all interactions with the profile page.
+* Airstack: Profiles and social. Used for the research tab and getting information about potential Web3backers.
+* Mask/Next.id: Profiles and social.
+* Privy: Authentication experience and transaction signing regardless of wallet. Privy provides a simple user experience for accessing the app regardless of network.
+* XMTP: XMTP is used for chat functionality within the platform. Users can open direct chats with creators, potentially for consultation or communication related to services or content. 
+* ENS: account abstraction (maps the address -> ENS profile and avatar).
 ## Useful links
 * Sponsors: https://ethglobal.com/events/newyork2023/prizes
 
@@ -103,8 +80,7 @@ Maybe:
 
 Copy `.env.sample` - `.env`
 
-Define the included environment variables with your own custom values. This includes keys for filecoin storage, privy authentication, and airstack.
-
+Define the included environment variables with your own custom values. This includes keys for filecoin storage, privy authentication, airstack, etc.
 
 `yarn; yarn dev`
 
@@ -122,7 +98,7 @@ Web3backers should now be running on port 3000.
 
 ## Screenshots / User flow
 
-![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/logo.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/scroll.png) ![Alt text](img/xmtp1.png)
+![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/scroll.png) ![Alt text](img/xmtp1.png)
 
 
 <!--
