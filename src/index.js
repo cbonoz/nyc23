@@ -15,6 +15,7 @@ import { PrivyProvider } from '@privy-io/react-auth';
 import { AirstackProvider } from '@airstack/airstack-react';
 
 import './index.css';
+import { XMTPProvider } from '@xmtp/react-sdk';
 
 const projectId = process.env.REACT_APP_WC_ID || 'YOUR_PROJECT_ID'
 const PRIVY_ID = process.env.REACT_APP_PRIVY_APP_ID
@@ -37,7 +38,7 @@ RPCS.push(publicProvider())
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   CHAINS, RPCS
 )
- 
+
 const config = createConfig({
   publicClient,
   webSocketPublicClient,
@@ -54,22 +55,25 @@ root.render(
       theme={{
         token: {
           // colorPrimary: '#7D60A0', //pr/
-           colorPrimary: '#8B99DC',
+          colorPrimary: '#8B99DC',
         },
       }}
     >
       <WagmiConfig config={config}>
-      <PrivyProvider
-      appId={PRIVY_ID}
-      config={{
-        walletConnectCloudProjectId: projectId
-      }}
-    >
-      <AirstackProvider apiKey={AIRSTACK_KEY}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-        </AirstackProvider>
+        <PrivyProvider
+          appId={PRIVY_ID}
+          config={{
+            walletConnectCloudProjectId: projectId
+          }}
+        >
+          <AirstackProvider apiKey={AIRSTACK_KEY}>
+            <XMTPProvider>
+
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </XMTPProvider>
+          </AirstackProvider>
         </PrivyProvider>
       </WagmiConfig>
     </ConfigProvider>

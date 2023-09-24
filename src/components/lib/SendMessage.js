@@ -1,8 +1,9 @@
 import { useSendMessage } from "@xmtp/react-sdk";
 import { useCallback, useState } from "react";
 import { ethers } from "ethers";
+import { Button, Input } from "antd";
 
-export const SendMessage = ({ conversation, peerAddress }) => {
+export const SendMessage = ({ account, conversation, peerAddress, addMessage }) => {
     const [message, setMessage] = useState("");
     const [isSending, setIsSending] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -34,13 +35,29 @@ export const SendMessage = ({ conversation, peerAddress }) => {
         [message, peerAddress, sendMessage],
     );
 
-    return (
-        <form onSubmit={handleSendMessage}>
-            <input
-                name="messageInput"
-                type="text"
-                onChange={handleMessageChange}
-                disabled={isSending}
-            />
-        </form>)
+    return (<div><Input
+        name="messageInput"
+        placeholder="Type a message"
+        type="text"
+        disabled={isSending}
+        value={message}
+        onChange={handleMessageChange}
+    />
+
+        <Button type="primary" htmlType="submit" disabled={isSending || !message}
+        onClick={
+            () => {
+                addMessage(conversation, {
+                    content: message,
+                    timestamp: Date.now(),
+                    author: account
+                })
+                setMessage('')
+            }
+        }>
+            Send
+        </Button>
+    </div>)
+
+
 }

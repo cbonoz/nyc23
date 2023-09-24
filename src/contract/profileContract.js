@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { USER_CONTRACT } from "../util/metadata";
 
 
-export async function deployContract(signer, name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens, verify) {
+export async function deployContract(signer, name, purpose, chainId, cid, offerPrice, offerDescription, consultFee, ens) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
         USER_CONTRACT.abi,
@@ -32,7 +32,7 @@ export async function purchaseConsult(signer, contractAddress, price) {
     // log
     const tx = await contract.purchaseConsult({ value: price });
     await tx.wait();
-    console.log("Purchased contract...", tx);
+    console.log("Purchased consult...", tx);
     return tx;
 }
 
@@ -44,11 +44,14 @@ export async function purchaseAccess(signer, contractAddress, price) {
         signer
     );
     // log
-    const tx = await contract.purchaseAccess({ value: price });
+    const value = ethers.utils.parseEther(price.toString());
+    console.log('Purchase access', value.toString());
+    const tx = await contract.purchaseAccess({ value });
     await tx.wait();
     console.log("Purchased contract...", tx);
     return tx;
 }
+
 
 // get Metadata
 export async function getMetadata(signer, contractAddress) {

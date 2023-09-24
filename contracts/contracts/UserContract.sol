@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.19;
 
 // License
 // SPDX-License-Identifier: MIT
@@ -44,9 +44,9 @@ contract UserContract {
         ens = _ens;
     }
 
-    // function emitBu
-
+    // Contract emits.
     event PurchaseEvent(address indexed _address, string _cid);
+    event ConsultEvent(address indexed _address, uint256 _consultFee);
 
     function purchaseAccess() public payable returns (string memory) {
         require(active, "Contract was marked inactive by creator");
@@ -61,6 +61,20 @@ contract UserContract {
         emit PurchaseEvent(msg.sender, offer.cid);
         hasAccess[msg.sender] = true;
         return offer.cid;
+    }
+
+      function purchaseConsult() public payable {
+        require(active, "Contract was marked inactive by creator");
+        if (consultFee != 0) {
+            require(
+                msg.value == consultFee,
+                "Incorrect price, please call contract with nonzero value"
+            );
+            // Transfer to deployer.
+            payable(deployer).transfer(msg.value);
+        }
+
+        emit ConsultEvent(msg.sender, consultFee);
     }
 
     // get price
@@ -86,8 +100,7 @@ contract UserContract {
     function getMetadata()
         public
         view
-        returns (string memory, string memory, Offer memory, uint256, string memory, uint256)
-    {
-        return (name, purpose, offer, consultFee, ens, chainId);
+        returns (string memory, string memory, Offer memory, uint256, string memory, uint256, address)
+        return (name, purpose, offer, consultFee, ens, chainId, deployer);
     }
 }

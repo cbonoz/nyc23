@@ -67,7 +67,7 @@ export const humanError = message => {
   } else if (message.indexOf('network changed') !== -1) {
     message = 'Network changed since page loaded, please refresh.'
   } else if (message.indexOf("estimate gas") !== -1) {
-    return `Execution reverted - Contract may have insufficient funds or a gas estimation error. Try sending .1 link for the oracle payment to the above address.`
+    return `Execution reverted - Contract may have insufficient funds or a gas estimation error.`;
   }
   return capitalize(message);
 }

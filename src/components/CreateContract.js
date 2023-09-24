@@ -268,7 +268,7 @@ function CreateContract({ account, provider, signer, switchNetwork, activeChain 
                   ]}
                 />
 
-                <h5>View Offer</h5>
+                <h2>View offer content</h2>
                 <p>The below offer link will be shared with any users that purchase it:
                   <br/>
                   {/* ipfs url */}

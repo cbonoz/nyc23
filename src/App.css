@@ -60,6 +60,10 @@
   margin-bottom: 20px
 }
 
+.ens-name {
+  padding: 5px;
+}
+
 .success-text {
   color: green;
 }

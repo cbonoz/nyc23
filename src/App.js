@@ -52,7 +52,8 @@ function App() {
       return
     }
 
-    const wallet = wallets[0];
+    const wallet = wallets.find((wallet) => (wallet.walletClientType === 'privy')) || wallets[0]
+
     const { chainId } = await provider.getNetwork()
     if (chainId === activeChain.id) {
       return
@@ -187,7 +188,6 @@ function App() {
               <Route path="/research" element={<Research />} />
               <Route path="/create" element={<CreateContract activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
               <Route path="/profile/:pageId" element={<ProfilePage activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
-              {/* conversation */}
               <Route path="/conversation/:targetAddress" element={<Conversation activeChain={activeChain} switchNetwork={switchNetwork} signer={signer} account={account} />} />
             </Routes>
           </div>

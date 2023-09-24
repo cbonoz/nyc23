@@ -30,6 +30,8 @@ Upload
 * NFT API (quicknode)
 * Mask (relationservice search) https://docs.next.id/core-concepts/relation-service/rs-example
 
+<p>Note this project is currently a prototype and would require additional work to be production ready.</p>
+
 ### Inspiration
 
 ### Core functions

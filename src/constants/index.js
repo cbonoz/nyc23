@@ -1,4 +1,4 @@
-import { sepolia, xdcTestnet, neonDevnet, filecoinCalibration } from 'viem/chains'
+import { scrollSepolia, xdcTestnet, neonDevnet, filecoinCalibration } from 'viem/chains'
 
 export const APP_NAME = 'Web3backers'
 // export const APP_DESC = 'Web3backers is a platform for backing and learning from your favorite web3 creators.'
@@ -8,7 +8,7 @@ export const APP_DESC = 'Your ultimate web3 sidehustle'
 export const NEXTID_BASE_URL='https://proof-service.next.id/'
 
 export const CHAIN_OPTIONS = {
-    [sepolia.id]: sepolia,
+    [scrollSepolia.id]: scrollSepolia,
     // [xdcTestnet.id]: xdcTestnet,
     [neonDevnet.id]: neonDevnet,
     [filecoinCalibration.id]: filecoinCalibration,
@@ -17,12 +17,12 @@ export const CHAIN_OPTIONS = {
 export const CHAINS = Object.values(CHAIN_OPTIONS)
 
 export const AIRSTACK_KEY = process.env.REACT_APP_AIRSTACK_KEY
-export const ACTIVE_CHAIN = CHAIN_OPTIONS[sepolia.id]
+export const ACTIVE_CHAIN = CHAIN_OPTIONS[scrollSepolia.id]
 
 export const EXAMPLE_FORM = {
     "id": 1,
     "name": "Chris",
-    "purpose": "Chris is creating web3 project tutorials",
+    "purpose": "Chris is creating web3 project tutorials and is open to consulting.",
     "address": "0x3CCAFaC2Cd44664bBb22F1fe9FBaEbcfcFFB2898",
     "paymentAddress": "0xFc62E94af9aBd25a1D7abfe00F7034Cf154BbBD9",
     "ens": "cbono.eth",
