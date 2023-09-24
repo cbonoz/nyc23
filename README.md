@@ -32,7 +32,11 @@ Upload
 
 <p>Note this project is currently a testnet prototype and would require additional work to be production ready.</p>
 
-Demo: web3backers.surge.sh
+Demo url: web3backers.surge.sh
+
+Quick demo video: https://youtu.be/rSb10W75Uao
+
+Note: The app network switch and your wallet network should both set to use the given network.
 
 ### Inspiration
 
@@ -44,8 +48,6 @@ Existing platforms for creator monetization exist such as Patreon and Buy Me a C
 
 
 ### Example Web3backers profile pages
-
-Toggle the app switch and your active wallet network to use the given network.
 
 
 #### Scroll Sepolia 
@@ -92,14 +94,14 @@ https://docs.privy.io/guide/quickstart
 ### Technologies used
 
 Technologies and how they are used:
-* Filecoin/IPFS: Contract deployment compatible with FEVM. Filecoin also serves uploaded content and the smart contract provides an access barrier to the addressed content based on cid.
+* Filecoin/IPFS: Filecoin/IPFS: Contract deployment compatible with FEVM. Filecoin also serves uploaded content and the smart contract provides an access barrier to the addressed content based on cid. FEVM deployment code here used in app also: Deployment code for testnet FEVM smart contract also used in app.
 * Scroll: Contract deployment on L2. Low cost and L2 networks helps reduce transaction fees and improve scalability, making it cost-effective for users and creators to interact with the platform. Scroll adds a level of auditability to all interactions with the profile page.
-* Neon: Contract deployment. Payments for consulting fees can be handled through the platform without the need for email addresses. Neon adds a level of auditability to all interactions with the profile page.
+* Neon: Main Contract deployment option that helps with gating and auditing at low cost / high throughput. Payments for consulting fees can be handled through the platform without the need for email addresses. Neon also adds a level of auditability to all interactions for each user's profile page on on an external chain.
 ** Airstack: Profiles and social. This entire app is around abstracting addresses and focusing on identity and social credability. Used for the research tab and getting information about potential Web3backers. Mixed with Next.ID for web2 elements, Airstack allows importing a user's social identity into the app without needing recreation. Also used on main profile page.
-* Mask/Next.id: Profiles and social APIs. This entire app is around abstracting addresses and focusing on identity and social credability. Mixed with Airstack, mask/next.id API allow importing a user's social identity into the app without needing recreation. Used to hydrate main profile page.
+* Mask/Next.id: Profiles and social APIs. This app is centered around abstracting addresses and focusing on identity and social credability Relation service data is used to create a universal profile that forms the basis of the Web3backers profile page for each user automatically. Mixed with Airstack, mask/next.id API allow importing a user's social identity into the app without needing recreation. 
 * Privy: Privy is part of the root of the appliacation. Authentication experience and transaction signing regardless of wallet. Privy provides a simple user experience for accessing the app and data on the connected smart contracts regardless of network.
 * XMTP: XMTP is used for chat functionality within the platform. Users can open direct chats with creators, potentially for consultation or communication related to services or content. 
-* ENS: account abstraction (maps the address -> ENS profile and avatar).
+* ENS: Core component of general profile account lookup abstraction (maps the address -> ENS profile and avatar). A big part of the profile information automatically created is linked through the user's ENS and alternatively DID.
 * QuickNode: Used on the infrastructure side. Added an RPC endpoint with scroll for more availability and performance compared to public networks.
 ## Useful links
 * Sponsors: https://ethglobal.com/events/newyork2023/prizes
