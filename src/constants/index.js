@@ -9,7 +9,6 @@ export const NEXTID_BASE_URL='https://proof-service.next.id/'
 
 export const CHAIN_OPTIONS = {
     [scrollSepolia.id]: scrollSepolia,
-    // [xdcTestnet.id]: xdcTestnet,
     [neonDevnet.id]: neonDevnet,
     [filecoinCalibration.id]: filecoinCalibration,
 }
@@ -41,7 +40,7 @@ export const generateItem = (id) => {
     }
 }
 
-
+  // [xdcTestnet.id]: xdcTestnet,
 // export const IPFS_BASE_URL = 'https://ipfs.filebase.io/ipfs'
 // export const IPFS_BASE_URL = 'https://gateway.pinata.cloud/ipfs'
 // export const IPFS_BASE_URL = 'https://saturn.ms/ipfs'

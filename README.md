@@ -68,11 +68,12 @@ Technologies and how they are used:
 * Filecoin/IPFS: Contract deployment compatible with FEVM. Filecoin also serves uploaded content and the smart contract provides an access barrier to the addressed content based on cid.
 * Scroll: Contract deployment on L2. Low cost and L2 networks helps reduce transaction fees and improve scalability, making it cost-effective for users and creators to interact with the platform. Scroll adds a level of auditability to all interactions with the profile page.
 * Neon: Contract deployment. Payments for consulting fees can be handled through the platform without the need for email addresses. Neon adds a level of auditability to all interactions with the profile page.
-* Airstack: Profiles and social. Used for the research tab and getting information about potential Web3backers.
-* Mask/Next.id: Profiles and social.
-* Privy: Authentication experience and transaction signing regardless of wallet. Privy provides a simple user experience for accessing the app regardless of network.
+** Airstack: Profiles and social. This entire app is around abstracting addresses and focusing on identity and social credability. Used for the research tab and getting information about potential Web3backers. Mixed with Next.ID for web2 elements, Airstack allows importing a user's social identity into the app without needing recreation. Also used on main profile page.
+* Mask/Next.id: Profiles and social APIs. This entire app is around abstracting addresses and focusing on identity and social credability. Mixed with Airstack, mask/next.id API allow importing a user's social identity into the app without needing recreation. Used to hydrate main profile page.
+* Privy: Privy is part of the root of the appliacation. Authentication experience and transaction signing regardless of wallet. Privy provides a simple user experience for accessing the app and data on the connected smart contracts regardless of network.
 * XMTP: XMTP is used for chat functionality within the platform. Users can open direct chats with creators, potentially for consultation or communication related to services or content. 
 * ENS: account abstraction (maps the address -> ENS profile and avatar).
+* QuickNode: Used on the infrastructure side. Added an RPC endpoint with scroll for more availability and performance compared to public networks.
 ## Useful links
 * Sponsors: https://ethglobal.com/events/newyork2023/prizes
 

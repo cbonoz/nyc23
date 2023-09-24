@@ -26,6 +26,7 @@ const Conversation = ({ account, signer }) => {
 
     const addMessage = (conversation, message) => {
         setActiveConversation(conversation)
+        // Greedy approach until message could be retrieved from XMTP/API or stream.
         if (message) {
             setMessages([...messages, message])
         }
