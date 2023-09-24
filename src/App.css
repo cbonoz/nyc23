@@ -118,7 +118,15 @@ input,
 textarea {
   max-width: 600px;
   margin-bottom: 10px;
-  /* margin-top: 10px; */
+  margin-top: 10px;
+}
+
+.search-input {
+  /* margin-top: 0px !important; */
+  /* margin-bottom: 10px; */
+}
+.research-page .ant-input-affix-wrapper span {
+  padding-top: 10px;
 }
 
 .header-logo {

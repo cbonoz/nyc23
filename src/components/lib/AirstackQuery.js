@@ -14,7 +14,7 @@ const AirstackQuery = ({ identity }) => {
     const [fetch, { data, loading, error }] = useLazyQuery(AIRSTACK_QUERY, variables, { cache: true });
 
     useEffect(() => {
-        if (identity) {
+        if (identity || !loading) {
             fetch()
         }
     }, [identity])

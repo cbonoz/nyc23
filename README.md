@@ -43,11 +43,13 @@ Existing platforms for creator monetization exist such as Patreon and Buy Me a C
  The goal of this project was to create an app that took existing social data and enabled wiring up to a highly auditable/self-governing system (smart contracts) to both facilitate sales of content and drive consulting conversations with potential clients.
 
 
-#
 ### Example Web3backers profile pages
 
-Scroll Sepolia: 0xb1F35230c645C12Bc3066dcdcd774E704983d208
-Verification: `cd contracts; yarn verify-sepolia 0xb1F35230c645C12Bc3066dcdcd774E704983d208`
+
+#### Scroll Sepolia 
+
+Example contract: https://sepolia-blockscout.scroll.io/address/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
+Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
 
 Filecoin Calibration:
 

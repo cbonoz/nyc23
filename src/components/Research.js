@@ -17,11 +17,12 @@ export const Research = () => {
 
 
     return <div>
-        <div className="centered">
+        <div className="centered research-page">
             <h1>Research Hub</h1>
             <h3>Because reputation often doesn't just come from one source</h3>
             <Search placeholder="Search ENS" prefix={'Search ENS:'}
-            style={{ width: 600 }}
+            className="search-input"
+            style={{ width: 600, paddingBottom: 10 }}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 enterButton="Search"
