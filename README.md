@@ -6,12 +6,13 @@
 Web3backers
 ---
 
+Web3backers is a smart contract - managed content monetization app that links in social data from your other third party platforms on day one
 
 Web3backers connects your existing web3 and web2 social accounts and information (see ENS< lens, linkedin, twitter, github, on-chain, etc.) to create a funding page for you to drive product sales and paid consults based on your combined reputation.
 
 Web3backers pulls information from your existing web3 and web2 networks to create a patreon-like experience without the 10% fees. Get clients and drive an alternative source of revenue.
 
-Three big pieces are:
+Core components:
 1. Web3backers enables anyone to create a monetization-focused site pulling many of their existing web2 and web3 social connections without requiring starting over on a greenfield platform.
 2. Every web3backer profile page has its own smart contract deployed on either low cost or high through L1/L2 networks such as scroll, neon, and filecoin. 
 3. The shareable profile page gives you an overall reputation score based on data from Airstack and Next.ID. Content such as courses can be sold, or a chat opened up directly from the page on XMTP with the creator's wallet address (no emails/subscriptions required).
@@ -52,7 +53,7 @@ Existing platforms for creator monetization exist such as Patreon and Buy Me a C
 
 #### Scroll Sepolia 
 
-Example contract: https://sepolia-blockscout.scroll.io/address/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
+Example contract: https://sepolia-blockscout.scroll.io/address/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020 (verified)
 Profile page: web3backers.surge.sh/profile/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
 
 ![Alt text](img/scroll.png)
@@ -63,7 +64,7 @@ Profile page: web3backers.surge.sh/profile/0x3868341EC71194425B8E2ac8d6fae3FcB9D
 
 #### Neon DevNet
 
-Example contract: https://devnet.neonscan.org/address/0xdA8562f275f5D93c64Bd993efA30b446EF445171#code
+Example contract: https://devnet.neonscan.org/address/0xdA8562f275f5D93c64Bd993efA30b446EF445171#code (verified)
 Profile page: web3backers.surge.sh/profile/0xdA8562f275f5D93c64Bd993efA30b446EF445171
 
 ![Alt text](img/neon.png)
@@ -77,20 +78,6 @@ Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e12
 ![Alt text](img/fil.png)
 
 
-
-### Example contracts
-
-http://localhost:3000/profile/0x0ad760921240F5d6e4dFF7E1d851A5577ea7f55D
-
-* url: 
-* Example verification url:
-
-<h1>Home</h1>
-<img src='./img/home.png' width=800>
-
-###
-
-https://docs.privy.io/guide/quickstart
 ### Technologies used
 
 Technologies and how they are used:
@@ -103,8 +90,6 @@ Technologies and how they are used:
 * XMTP: XMTP is used for chat functionality within the platform. Users can open direct chats with creators, potentially for consultation or communication related to services or content. 
 * ENS: Core component of general profile account lookup abstraction (maps the address -> ENS profile and avatar). A big part of the profile information automatically created is linked through the user's ENS and alternatively DID.
 * QuickNode: Used on the infrastructure side. Added an RPC endpoint with scroll for more availability and performance compared to public networks.
-## Useful links
-* Sponsors: https://ethglobal.com/events/newyork2023/prizes
 
 ### Running the app
 
@@ -122,6 +107,10 @@ Web3backers should now be running on port 3000.
 
 1. `yarn build` to generate a production build (note that you must set all env variables in .env).
 2. `yarn deploy` is currently set to use surge.sh. Feel free to replace with the distributed host of your choosing.
+
+
+### Home page
+![Alt text](img/home.png) 
 
 ## Core functions
 * Landing page
@@ -142,9 +131,13 @@ Web3backers should now be running on port 3000.
 3. Enhanced profile search: A search function based on reputation or domain expertise could also help with discovery and recommendations for finding new creators looking for backing or support.
 4. Testing and production deployment: Web3backers is currently an app on the testnet. To monetize, Networks and protocols would need to be retested to be compliant with mainnets.
 
-## Screenshots of user flow / Contract
+## Screenshots of user flows / Contract creation
 
-![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/xmtp1.png)
+
+![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/xmtp1.png)
+
+## Useful links
+* Sponsors: https://ethglobal.com/events/newyork2023/prizes
 
 
 <!--
