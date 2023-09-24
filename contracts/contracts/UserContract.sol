@@ -63,7 +63,7 @@ contract UserContract {
         return offer.cid;
     }
 
-      function purchaseConsult() public payable {
+    function purchaseConsult() public payable {
         require(active, "Contract was marked inactive by creator");
         if (consultFee != 0) {
             require(
@@ -100,7 +100,16 @@ contract UserContract {
     function getMetadata()
         public
         view
-        returns (string memory, string memory, Offer memory, uint256, string memory, uint256, address)
+        returns (
+            string memory,
+            string memory,
+            Offer memory,
+            uint256,
+            string memory,
+            uint256,
+            address
+        )
+    {
         return (name, purpose, offer, consultFee, ens, chainId, deployer);
     }
 }

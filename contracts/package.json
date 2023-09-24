@@ -5,5 +5,8 @@
   },
   "scripts": {
     "verify-sepolia": "npx hardhat verify --network scrollSepolia"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-verify": "^1.1.1"
   }
 }

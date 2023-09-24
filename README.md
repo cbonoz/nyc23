@@ -50,18 +50,30 @@ Toggle the app switch and your active wallet network to use the given network.
 
 #### Scroll Sepolia 
 
-Example contract: https://sepolia-blockscout.scroll.io/address/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
-Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
+Example contract: https://sepolia-blockscout.scroll.io/address/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
+Profile page: web3backers.surge.sh/profile/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
+
+![Alt text](img/scroll.png)
+
+![Alt text](img/verify.png)
+
+<!-- Example verification: npx hardhat verify --network scrollSepolia 0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020 Chris "Chris is creating web3 project tutorials and is open to consulting." 534351 bafybeidull4upwdt36rb4guypgoixhtiokn6f5jvywf2yt4j3meilxwhmy 10000000000000000 "Purchase a PDF tutorial of building a web3 app from scratch." 20000000000000000 cbono.eth -->
+
+#### Neon DevNet
+
+Example contract: https://devnet.neonscan.org/address/0xdA8562f275f5D93c64Bd993efA30b446EF445171#code
+Profile page: web3backers.surge.sh/profile/0xdA8562f275f5D93c64Bd993efA30b446EF445171
+
+![Alt text](img/neon.png)
+
 
 #### Filecoin Calibration:
 
 Example contract: https://calibration.filscan.io/address/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41/
 Profile page: web3backers.surge.sh/profile/0xAE985d249B125c7b2CCc000B1D6ea250e1204E41
 
-#### Neon DevNet
+![Alt text](img/fil.png)
 
-Example contract: https://neonscan.org/address/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
-Profile page: web3backers.surge.sh/profile/0x3868341EC71194425B8E2ac8d6fae3FcB9D8A020
 
 
 ### Example contracts
@@ -128,9 +140,9 @@ Web3backers should now be running on port 3000.
 3. Enhanced profile search: A search function based on reputation or domain expertise could also help with discovery and recommendations for finding new creators looking for backing or support.
 4. Testing and production deployment: Web3backers is currently an app on the testnet. To monetize, Networks and protocols would need to be retested to be compliant with mainnets.
 
-## Screenshots / Contract
+## Screenshots of user flow / Contract
 
-![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/scroll.png) ![Alt text](img/xmtp1.png)
+![Alt text](img/buy.png) ![Alt text](img/chat.png) ![Alt text](img/confirm.png) ![Alt text](img/contract.png) ![Alt text](img/created.png) ![Alt text](img/deploy.png) ![Alt text](img/home.png) ![Alt text](img/privy.png) ![Alt text](img/profile.png) ![Alt text](img/research.png) ![Alt text](img/score.png) ![Alt text](img/xmtp1.png)
 
 
 <!--

@@ -1,14 +1,23 @@
 /** @type import('hardhat/config').HardhatUserConfig */
+
+require("@nomicfoundation/hardhat-verify");
+
 module.exports = {
   solidity: "0.8.19",
-  etherscan: {
-    networks: {
-      scrollSepolia: {
-        url: 'https://sepolia-rpc.scroll.io' || '',
-        accounts:
-          process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-      },
+
+  networks: {
+    scrollSepolia: {
+      url: 'https://sepolia-rpc.scroll.io' || '',
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    neonevm: {
+      url: 'https://devnet.neonevm.org',
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+  },
+  etherscan: {
     apiKey: {
       neonevm: "test",
       scrollSepolia: 'abc',
@@ -33,6 +42,6 @@ module.exports = {
 
     ]
   }
-  
+
 };
 
