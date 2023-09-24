@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useQuery } from "@airstack/airstack-react";
+import { useLazyQuery } from "@airstack/airstack-react";
 import { AIRSTACK_QUERY, APP_NAME } from "../../constants";
 import { Card, List, Progress, Tooltip, Typography } from "antd";
 import { Row, Col } from 'antd';
@@ -11,7 +11,13 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 const AirstackQuery = ({ identity }) => {
     const variables = { identity }
     const twoColors = { '0%': '#108ee9', '100%': '#87d068' };
-    const { data, loading, error } = useQuery(AIRSTACK_QUERY, variables, { cache: false });
+    const [fetch, { data, loading, error }] = useLazyQuery(AIRSTACK_QUERY, variables, { cache: true });
+
+    useEffect(() => {
+        if (identity) {
+            fetch()
+        }
+    }, [identity])
 
     if (loading) {
         return <p>Loading...</p>;
